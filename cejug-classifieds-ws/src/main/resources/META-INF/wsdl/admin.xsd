@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+	targetNamespace="http://cejug-classifieds.dev.java.net/metadata/admin"
+	xmlns:admin="http://cejug-classifieds.dev.java.net/metadata/admin"
+	xmlns:mime="http://www.w3.org/2005/05/xmlmim" xmlns:rss20="http://blogs.law.harvard.edu/RSS20.xsd"
+	xmlns:atom10="http://www.w3.org/2005/Atom" xmlns:common="http://cejug-classifieds.dev.java.net/metadata/common"
+	elementFormDefault="qualified" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.1">
+	<xsd:import namespace="http://cejug-classifieds.dev.java.net/metadata/common"
+		schemaLocation="common.xsd" />
+	<xsd:annotation>
+		<xsd:documentation>
+			The Admin Meta-data of CEJUG-Classifieds.
+		</xsd:documentation>
+		<xsd:appinfo>
+			<jaxb:globalBindings>
+				<xjc:serializable uid="-6908316602239211070" />
+				<jaxb:javaType name="java.util.Calendar" xmlType="xsd:dateTime"
+					parseMethod="javax.xml.bind.DatatypeConverter.parseDate"
+					printMethod="javax.xml.bind.DatatypeConverter.printDate" />
+			</jaxb:globalBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:element name="AdvertisementRef">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="common:AbstractMessageElement">
+					<xsd:sequence>
+						<xsd:element name="headline" type="xsd:string"
+							minOccurs="0" maxOccurs="1" />
+						<xsd:element ref="common:PrimaryKey" minOccurs="0"
+							maxOccurs="1" />
+						<xsd:element name="status" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="AdvertisementRefBundle">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="admin:AdvertisementRef" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="ReadAdvertisementReferencesParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:PrimaryKey" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="MonitorQuery">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="query" type="xsd:string" minOccurs="0"
+					maxOccurs="1" />
+				<xsd:element name="response.time.length" type="xsd:int"
+					default="10" />
+				<xsd:element name="alive.periods.length" type="xsd:int"
+					default="10" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MonitorResponse">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element name="service.name" type="xsd:string" />
+				<xsd:element name="response.time" type="admin:OperationTimestamp"
+					minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="alive.periods" type="admin:AlivePeriod"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CancelQuotaInfo">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="common:Quota" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="cancellation.reason" type="xsd:string" />
+				<xsd:element name="notify.domain.owner" type="xsd:boolean"
+					default="true" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AddQuotaInfo">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="common:Quota" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="notify.domain.owner" type="xsd:boolean"
+					default="false" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="OperationTimestamp">
+		<xsd:complexContent>
+			<xsd:extension base="common:AbstractMessageElement">
+				<xsd:sequence>
+					<xsd:element name="operation.name" type="xsd:string" />
+					<xsd:element name="start" type="xsd:dateTime" />
+					<xsd:element name="finish" type="xsd:dateTime" />
+					<xsd:element name="client.id" type="xsd:string" />
+					<xsd:element name="status" type="xsd:boolean" default="true" />
+					<xsd:element name="note" type="xsd:string" nillable="true" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AlivePeriod">
+		<xsd:sequence>
+			<xsd:element name="start" type="xsd:dateTime" />
+			<xsd:element name="finish" type="xsd:dateTime" />
+			<xsd:element name="note" type="xsd:string" nillable="true" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Credentials">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="client.id" type="xsd:string" />
+				<xsd:element name="customer.id" type="xsd:string" />
+				<xsd:element name="customer.role" type="xsd:string" />
+				<xsd:element name="group" type="xsd:string" minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="PinSet">
+		<xsd:sequence>
+			<xsd:element name="pin" type="xsd:string" />
+			<xsd:element name="type" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- ADVERTISEMENT TYPE PARAMETERS -->
+	<xsd:element name="CreateAdvertisementTypeParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:AdvertisementType" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UpdateAdvertisementTypeParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:AdvertisementType" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DeleteAdvertisementTypeParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:PrimaryKey" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ReadAdvertisementTypeBundleParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:AdvertisementTypeBundleRequest" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- DOMAIN PARAMETERS -->
+	<xsd:element name="CreateDomainParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:Domain" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UpdateDomainParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:Domain" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DeleteDomainParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:PrimaryKey" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ReadDomainBundleParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:DomainBundleRequest" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- CATEGORY PARAMETERS -->
+	<xsd:element name="CreateCategoryParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:AdvCategory" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UpdateCategoryParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:AdvCategory" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DeleteCategoryParam">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element ref="common:PrimaryKey" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

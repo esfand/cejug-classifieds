@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel title="Advertisement Type" horizontalAlign="center" verticalGap="0" paddingTop="8" paddingBottom="8" 
+    xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+    xmlns:advtype="net.java.dev.cejug.classifieds.admin.controller.advtype.*"
+    creationComplete="advtypeService.init(event)">
+
+    <advtype:AdvTypeController id="advtypeService" />
+    <mx:VBox width="100%" height="100%" id="vbAdvType">
+        <mx:Panel id="pAdvType" title="Advertisement Types" width="100%" height="100%">
+            <mx:DataGrid id="dgAdvType" dataProvider="{advtypeService.advtypeDataProvider}" width="100%" height="100%" allowMultipleSelection="false">
+                <mx:columns>
+                    <mx:DataGridColumn headerText="Id" dataField="entityId"/>
+                    <mx:DataGridColumn headerText="Name" dataField="name"/>
+                    <mx:DataGridColumn headerText="Description" dataField="description"/>
+                    <mx:DataGridColumn headerText="Text Length" dataField="maxTextLength"  />
+                    <mx:DataGridColumn headerText="Max. Attach. Size" dataField="maxAttachmentSize"  />
+                </mx:columns>
+            </mx:DataGrid>
+
+            <mx:ControlBar>
+                <mx:Button label="New"  click="advtypeService.loadNewAdvType()" />
+                <mx:Button label="Update" click="advtypeService.loadUpdateAdvType()" enabled="{Boolean(dgAdvType.selectedItem)}" />
+                <mx:Button label="Delete" click="advtypeService.confirmDeleteAdvType()" enabled="{Boolean(dgAdvType.selectedItem)}" />
+            </mx:ControlBar>
+        </mx:Panel>
+    </mx:VBox>
+
+    <mx:states>
+        <mx:State name="createAdvType">
+            <mx:AddChild relativeTo="{vbAdvType}">
+                <mx:Panel id="pNewAdvType" title="New Advertisement Type" width="100%">
+                    <mx:Form width="100%" id="fNewAdvType">
+                        <mx:FormItem label="Name"><mx:TextInput id="fNewAdvTypeName"/></mx:FormItem>
+                        <mx:FormItem label="Description"><mx:TextArea id="fNewAdvTypeDescription" width="300" height="100" /></mx:FormItem>
+                        <mx:FormItem label="Text Length:"><mx:TextInput id="fNewAdvTypeTextLength" restrict="0-9"/></mx:FormItem>
+                        <mx:FormItem label="Max. Attachment Size:"><mx:TextInput id="fNewAdvTypeMaxAttSize" restrict="0-9"/></mx:FormItem>
+                    </mx:Form>
+
+                    <mx:ControlBar>
+                        <mx:Button label="Save" enabled="{fNewAdvTypeName.text.length > 0}" click="advtypeService.createAdvType()" />
+                        <mx:Button label="Cancel"  click="advtypeService.resetState()"/>
+                    </mx:ControlBar>
+                </mx:Panel>
+            </mx:AddChild>
+            <mx:SetProperty target="{pAdvType}" name="enabled" value="false"/>
+        </mx:State>
+
+        <mx:State name="updateAdvType">
+            <mx:AddChild relativeTo="{vbAdvType}">
+                <mx:Panel id="pUpdateAdvType" title="Update Advertisement Type" width="100%">
+                    <mx:Form width="100%" id="fUpdateAdvType">
+                        <mx:FormItem label="Name"><mx:TextInput id="fUpdateAdvTypeName" text="{advtypeService.advTypeEntity.name}" /></mx:FormItem>
+                        <mx:FormItem label="Description"><mx:TextArea id="fUpdateAdvTypeDescription" text="{advtypeService.advTypeEntity.description}" width="300" height="100" /></mx:FormItem>
+                        <mx:FormItem label="Text Length:"><mx:TextInput id="fUpdateAdvTypeTextLength" text="{advtypeService.advTypeEntity.maxTextLength}" restrict="0-9"/></mx:FormItem>
+                        <mx:FormItem label="Max. Attachment Size:"><mx:TextInput id="fUpdateAdvTypeMaxAttSize" text="{advtypeService.advTypeEntity.maxAttachmentSize}" restrict="0-9"/></mx:FormItem>
+                    </mx:Form>
+
+                    <mx:ControlBar>
+                        <mx:Button label="Save" enabled="{fUpdateAdvTypeName.text.length > 0}" click="advtypeService.updateAdvType()" />
+                        <mx:Button label="Cancel"  click="currentState=''"/>
+                    </mx:ControlBar>
+                </mx:Panel>
+            </mx:AddChild>
+            <mx:SetProperty target="{pAdvType}" name="enabled" value="false"/>
+        </mx:State>
+    </mx:states>
+</mx:Panel>

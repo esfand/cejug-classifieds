@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bibliography id="bibliography">
+	<title>Bibliography</title>
+	<bibliodiv>
+		<title>Books</title>
+		<biblioentry>
+			<abbrev>Kodali06</abbrev>
+			<authorgroup>
+				<author>
+					<firstname>Raghu</firstname>
+					<surname>R Kodali</surname>
+				</author>
+				<author>
+					<firstname>Jonathan</firstname>
+					<surname>Wetherbee</surname>
+				</author>
+				<author>
+					<firstname>Peter</firstname>
+					<surname>Zadrozny</surname>
+				</author>
+			</authorgroup>
+			<copyright>
+				<year>2006</year>
+				<holder>Apress</holder>
+			</copyright>
+			<editor>
+				<firstname>Steve</firstname>
+				<surname>Anglin</surname>
+			</editor>
+			<isbn>1-59059-671-4</isbn>
+			<publisher>
+				<publishername>Apress</publishername>
+			</publisher>
+			<title>Beginning EJB 3 Application Development: From Novice
+				to Professional</title>
+		</biblioentry>
+		<biblioentry>
+			<abbrev>Keith06</abbrev>
+			<authorgroup>
+				<author>
+					<firstname>Mike</firstname>
+					<surname>Keith</surname>
+				</author>
+				<author>
+					<firstname>Merrick</firstname>
+					<surname>Schincariol</surname>
+				</author>
+			</authorgroup>
+			<copyright>
+				<year>2006</year>
+				<holder>Apress</holder>
+			</copyright>
+			<editor>
+				<firstname>Steve</firstname>
+				<surname>Anglin</surname>
+			</editor>
+			<isbn>1-59059-645-5</isbn>
+			<publisher>
+				<publishername>Apress</publishername>
+			</publisher>
+			<title>Pro EJB 3 - Java Persistence API</title>
+		</biblioentry>
+		<biblioentry>
+			<abbrev>Cagle01</abbrev>
+			<authorgroup>
+				<author>
+					<firstname>Kurt</firstname>
+					<surname>Cagle</surname>
+				</author>
+				<author>
+					<firstname>Jon</firstname>
+					<surname>Duckett</surname>
+				</author>
+				<author>
+					<firstname>Oliver</firstname>
+					<surname>Griffin</surname>
+				</author>
+				<author>
+					<firstname>Stephen</firstname>
+					<surname>Mohr</surname>
+				</author>
+				<author>
+					<firstname>Francis</firstname>
+					<surname>Norton</surname>
+				</author>
+				<author>
+					<firstname>Nikola</firstname>
+					<surname>Ozu</surname>
+				</author>
+				<author>
+					<firstname>Ian</firstname>
+					<surname>Stokes-Rees</surname>
+				</author>
+				<author>
+					<firstname>Jeni</firstname>
+					<surname>Tennision</surname>
+				</author>
+				<author>
+					<firstname>Kevin</firstname>
+					<surname>Williams</surname>
+				</author>
+			</authorgroup>
+			<copyright>
+				<year>2001</year>
+				<holder>Wrox Press Ltd</holder>
+			</copyright>
+			<editor>
+				<firstname>Phillip</firstname>
+				<surname>Jackson</surname>
+			</editor>
+			<isbn>1-861005-47-4</isbn>
+			<publisher>
+				<publishername>Wrox Press Ltd</publishername>
+			</publisher>
+			<title>Professional XML Schemas</title>
+		</biblioentry>
+	</bibliodiv>
+	<bibliodiv>
+		<title>Internet reference</title>
+		<biblioentry id="bib.blueprints">
+			<abbrev>BLUEPRINTS</abbrev>
+			<title>
+				Java BluePrints
+			</title>
+			<releaseinfo>
+				<ulink url="http://java.sun.com/reference/blueprints/">http://java.sun.com/reference/blueprints
+				</ulink>
+			</releaseinfo>
+		</biblioentry>
+		<biblioentry id="bib.glassfish">
+			<abbrev>GLASSFISH</abbrev>
+			<title>
+				GlassFish Software Product Documentation
+			</title>
+			<releaseinfo>
+				<ulink url="https://glassfish.dev.java.net/docs/index.html">https://glassfish.dev.java.net/docs/index.html
+				</ulink>
+			</releaseinfo>
+		</biblioentry>
+		<biblioentry id="bib.maven">
+			<abbrev>MAVEN</abbrev>
+			<title>
+				Maven 2 user documentation 
+			</title>
+			<releaseinfo>
+				<ulink url="http://maven.apache.org/users/index.html">http://maven.apache.org/users/index.html
+				</ulink>
+			</releaseinfo>
+		</biblioentry>
+		<biblioentry id="bib.affiliation">
+			<abbrev>AFFILIATION</abbrev>
+			<title>
+				Making Money From Mashups (blog) 
+			</title>
+			<releaseinfo>
+				<ulink
+					url="http://blog.programmableweb.com/2007/01/18/making-money-from-mashups/">
+					http://blog.programmableweb.com/2007/01/18/making-money-from-mashups/
+				</ulink>
+			</releaseinfo>
+		</biblioentry>
+
+	</bibliodiv>
+</bibliography>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	xmlns:controller="net.java.dev.cejug.classifieds.admin.controller.*" 
+	xmlns:category="net.java.dev.cejug.classifieds.admin.view.category.*"
+	xmlns:advtype="net.java.dev.cejug.classifieds.admin.view.advtype.*"
+	xmlns:domain="net.java.dev.cejug.classifieds.admin.view.domain.*"
+	xmlns:advertisement="net.java.dev.cejug.classifieds.admin.view.advertisement.*"
+	creationComplete="mainService.init(event)" >
+    <!-- Define the menu data. -->
+    <controller:MainController id="mainService" />
+    <mx:MenuBar labelField="@label"  
+        dataProvider="{mainService.menuBarCollection}"
+        itemClick="mainService.itemClickHandler(event);" width="100%"/>
+    <mx:states>
+        <mx:State name="category">
+            <mx:AddChild position="lastChild">
+                <category:category id="categoryScreen" y="30" width="100%" height="100%" />
+            </mx:AddChild>
+        </mx:State>
+        <mx:State name="advtype">
+            <mx:AddChild position="lastChild">
+                <advtype:advtype id="advtypeScreen" y="30" width="100%" height="100%" />
+            </mx:AddChild>
+        </mx:State>
+        <mx:State name="domain">
+            <mx:AddChild position="lastChild">
+                <domain:domain id="domainScreen" y="30" width="100%" height="100%" />
+            </mx:AddChild>
+        </mx:State>
+        <mx:State name="advertisement">
+            <mx:AddChild position="lastChild">
+                <advertisement:advertisement id="advScreen" y="30" width="100%" height="100%" />
+            </mx:AddChild>
+        </mx:State>
+        <mx:State name="monitor">
+            <mx:AddChild position="lastChild">
+                <mx:Panel width="378" height="106" layout="absolute" horizontalAlign="center" horizontalCenter="0" verticalCenter="2">
+                    <mx:Label x="63" y="19" text="Operation not implemented" fontSize="16"/>
+                </mx:Panel>
+            </mx:AddChild>
+        </mx:State>
+    </mx:states>
+</mx:Canvas>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel title="Category" horizontalAlign="center" verticalGap="0" paddingTop="8" paddingBottom="8" 
+    xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+    xmlns:category="net.java.dev.cejug.classifieds.admin.controller.category.*"
+    creationComplete="categoryService.init(event)">
+
+    <category:CategoryController id="categoryService" />
+    <mx:VBox width="100%" height="100%" id="vbCategory">
+        <mx:Panel id="pCategory" title="Categories" width="100%" height="100%">
+            <mx:DataGrid id="dgCategories" dataProvider="{categoryService.categoryDataProvider}" width="100%" height="100%" allowMultipleSelection="false">
+                <mx:columns>
+                    <mx:DataGridColumn headerText="Id" dataField="entityId"/>
+                    <mx:DataGridColumn headerText="Name" dataField="name"/>
+                    <mx:DataGridColumn headerText="Description" dataField="description"/>
+                    <mx:DataGridColumn headerText="Available" dataField="available" />
+                    <mx:DataGridColumn headerText="Parent" dataField="advSubCategory" />
+                </mx:columns>
+            </mx:DataGrid>
+
+            <mx:ControlBar>
+                <mx:Button label="New"  click="categoryService.loadNewCategory()" />
+                <mx:Button label="Update" click="categoryService.loadUpdateCategory()" enabled="{Boolean(dgCategories.selectedItem)}" />
+                <mx:Button label="Delete" click="categoryService.confirmDeleteCategory()" enabled="{Boolean(dgCategories.selectedItem)}" />
+            </mx:ControlBar>
+        </mx:Panel>
+    </mx:VBox>
+
+    <mx:states>
+        <mx:State name="createCategory">
+            <mx:AddChild relativeTo="{vbCategory}">
+                <mx:Panel id="pNewCategory" title="New Category" width="100%">
+                    <mx:Form width="100%" id="fNewCategory">
+                        <mx:FormItem label="Name"><mx:TextInput id="fNewCategoryName"/></mx:FormItem>
+                        <mx:FormItem label="Description"><mx:TextArea id="fNewCategoryDescription" width="300" height="100" /></mx:FormItem>
+                        <mx:FormItem label="Parent">
+                            <mx:ComboBox id="fNewCategoryParent" labelField="name" dataProvider="{categoryService.parentDataProvider}"></mx:ComboBox>
+                        </mx:FormItem>
+                    </mx:Form>
+
+                    <mx:ControlBar>
+                        <mx:Button label="Save" enabled="{fNewCategoryName.text.length > 0}" click="categoryService.createCategory()" />
+                        <mx:Button label="Cancel"  click="categoryService.resetState()"/>
+                    </mx:ControlBar>
+                </mx:Panel>
+            </mx:AddChild>
+            <mx:SetProperty target="{pCategory}" name="enabled" value="false"/>
+        </mx:State>
+
+        <mx:State name="updateCategory">
+            <mx:AddChild relativeTo="{vbCategory}">
+                <mx:Panel id="pUpdateCategory" title="Update Category" width="100%">
+                    <mx:Form width="100%" id="fUpdateCategory">
+                        <mx:FormItem label="Name"><mx:TextInput id="fUpdateCategoryName" text="{categoryService.categoryEntity.name}"/></mx:FormItem>
+                        <mx:FormItem label="Description"><mx:TextArea id="fUpdateCategoryDescription" text="{categoryService.categoryEntity.description}" width="300" height="100"/></mx:FormItem>
+                        <mx:FormItem label="Parent">
+                            <mx:ComboBox id="fUpdateCategoryParent" labelField="name" dataProvider="{categoryService.parentDataProvider}"></mx:ComboBox>
+                        </mx:FormItem>
+                    </mx:Form>
+
+                    <mx:ControlBar>
+                        <mx:Button label="Save" enabled="{fUpdateCategoryName.text.length > 0}" click="categoryService.updateCategory()" />
+                        <mx:Button label="Cancel"  click="currentState=''"/>
+                    </mx:ControlBar>
+                </mx:Panel>
+            </mx:AddChild>
+            <mx:SetProperty target="{pCategory}" name="enabled" value="false"/>
+        </mx:State>
+    </mx:states>
+</mx:Panel>

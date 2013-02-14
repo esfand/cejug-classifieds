@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="cejug-classifieds"
+	targetNamespace="http://cejug-classifieds.dev.java.net/common"
+	xmlns:contract="http://cejug-classifieds.dev.java.net/common"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:common="http://cejug-classifieds.dev.java.net/metadata/common"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.1">
+	<xsd:annotation>
+		<xsd:documentation>
+			Shared messages and meta-data.
+		</xsd:documentation>
+	</xsd:annotation>
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://cejug-classifieds.dev.java.net/common"
+			xmlns:common="http://cejug-classifieds.dev.java.net/metadata/common"
+			elementFormDefault="qualified">
+			<xsd:import namespace="http://cejug-classifieds.dev.java.net/metadata/common"
+				schemaLocation="common.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<!-- CATEGORY BUNDLE -->
+	<wsdl:message name="ReadCategoryBundle">
+		<wsdl:part element="common:CategoryBundleRequest" name="category.bundle.request" />
+	</wsdl:message>
+	<wsdl:message name="CategoryBundle">
+		<wsdl:part element="common:CategoryCollection" name="category.bundle" />
+	</wsdl:message>
+	<wsdl:message name="Category">
+		<wsdl:part element="common:AdvCategory" name="category" />
+	</wsdl:message>
+
+	<!-- DOMAIN BUNDLE -->
+	<wsdl:message name="ReadDomainBundle">
+		<wsdl:part element="common:DomainBundleRequest" name="domain.bundle.request" />
+	</wsdl:message>
+	<wsdl:message name="DomainBundle">
+		<wsdl:part element="common:DomainCollection" name="domain.bundle" />
+	</wsdl:message>
+	<wsdl:message name="Domain">
+		<wsdl:part element="common:Domain" name="domain" />
+	</wsdl:message>
+	<wsdl:message name="PrimaryKey">
+		<wsdl:part element="common:PrimaryKey" name="id" />
+	</wsdl:message>
+
+	<!-- CUSTOMER BUNDLE -->
+	<wsdl:message name="ReadCustomerBundle" >
+		<wsdl:part element="common:CustomerBundleRequest" name="domain.bundle.request" />
+	</wsdl:message>
+	<wsdl:message name="CustomerBundle">
+		<wsdl:part element="common:CustomerCollection" name="customer.bundle" />
+	</wsdl:message>
+	<wsdl:message name="Customer">
+		<wsdl:part element="common:Customer" name="customer" />
+	</wsdl:message>
+
+	<!-- ADVERTISEMENT TYPE BUNDLE -->
+	<wsdl:message name="ReadAdvertisementTypeBundle" >
+		<wsdl:part element="common:AdvertisementTypeBundleRequest" name="adv.type.bundle.request" />
+	</wsdl:message>
+	<wsdl:message name="AdvertisementTypeBundle">
+		<wsdl:part element="common:AdvertisementTypeCollection"
+			name="domain.bundle" />
+	</wsdl:message>
+	<wsdl:message name="AdvertisementType">
+		<wsdl:part element="common:AdvertisementType" name="advertisement.type" />
+	</wsdl:message>
+
+	<!-- GENERAL FAILURE MESSAGE -->
+	<wsdl:message name="ClassifiedsFault">
+		<wsdl:part element="common:ServiceFault" name="fault" />
+	</wsdl:message>
+
+	<!-- GENERAL RESPONSE STATUS -->
+	<wsdl:message name="OperationExecutionStatus">
+		<wsdl:part element="common:ServiceStatus" name="status" />
+	</wsdl:message>
+	<wsdl:message name="OperationExecutionStatusBundle">
+		<wsdl:part element="common:ServiceStatus" name="status" />
+	</wsdl:message>
+	
+	<!-- CUSTOMER CRUD MESSAGES -->
+	<wsdl:message name="CreateCustomerMsg">
+		<wsdl:part element="common:CreateCustomerParam" name="new.customer" />
+	</wsdl:message>
+	<wsdl:message name="UpdateCustomerMsg">
+		<wsdl:part element="common:UpdateCustomerParam" name="partial.customer" />
+	</wsdl:message>
+	<wsdl:message name="DeleteCustomerMsg">
+		<wsdl:part element="common:DeleteCustomerParam" name="obsolete.customer" />
+	</wsdl:message>
+	<wsdl:message name="ReadCustomerBundleMsg">
+		<wsdl:part element="common:ReadCustomerBundleParam" name="get.customer" />
+	</wsdl:message>
+</wsdl:definitions>

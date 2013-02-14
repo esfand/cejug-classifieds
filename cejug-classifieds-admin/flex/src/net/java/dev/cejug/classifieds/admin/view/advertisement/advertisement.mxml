@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel title="Archive Advertisements" horizontalAlign="center" verticalGap="0" paddingTop="8" paddingBottom="8" 
+    xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+    xmlns:advertisement="net.java.dev.cejug.classifieds.admin.controller.advertisement.*"
+    creationComplete="advService.init(event)">
+
+    <advertisement:AdvController id="advService" />
+    <mx:VBox width="100%" height="100%" id="vbAdvertisement">
+        <mx:Panel id="pAdvertisement" title="Advertisements" width="100%" height="100%">
+            <mx:ControlBar>
+                <mx:FormItem label="Category"><mx:ComboBox id="fCategory" labelField="name" dataProvider="{advService.categoryDataProvider}"></mx:ComboBox></mx:FormItem>
+                <mx:Button label="Search"  click="advService.searchAdvertisements()" />
+            </mx:ControlBar>
+            <mx:DataGrid id="dgAdvertisement" dataProvider="{advService.advertisementDataProvider}" width="100%" height="100%" allowMultipleSelection="true">
+                <mx:columns>
+                    <mx:DataGridColumn headerText="Id" dataField="primaryKey"/>
+                    <mx:DataGridColumn headerText="Headline" dataField="headline"/>
+                    <mx:DataGridColumn headerText="Status" dataField="status"/>
+                </mx:columns>
+            </mx:DataGrid>
+
+            <mx:ControlBar>
+                <mx:Button label="Archive" click="advService.confirmDeleteAdvertisement()" enabled="{Boolean(dgAdvertisement.selectedItem)}" />
+            </mx:ControlBar>
+        </mx:Panel>
+    </mx:VBox>
+</mx:Panel>

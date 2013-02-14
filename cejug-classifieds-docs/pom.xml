@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project>
+	<parent>
+		<artifactId>cejug-classifieds</artifactId>
+		<groupId>net.java.dev.cejug.classifieds
+		</groupId>
+		<version>1.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.java.dev.cejug.classifieds.docs
+	</groupId>
+	<artifactId>cejug-classifieds-docs</artifactId>
+	<name>cejug-classifieds-login</name>
+	<version>1.0</version>
+	<url>http://maven.apache.org</url>
+	<build>
+		<defaultGoal>sdocbook:generate-html
+		</defaultGoal>
+		<directory>${basedir}/target</directory>
+		<finalName>${artifactId}-${date}</finalName>
+		<sourceDirectory>${basedir}/src/main/java
+		</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>maven-plugins</groupId>
+			<artifactId>maven-sdocbook-plugin</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<!--
+			mvn install:install-file -DgroupId=jimi -DartifactId=jimi
+			-Dversion=1.0 -Dpackaging=jar
+			-Dfile=/Desktop/maven-sdocbook-plugin-1.4.1.jar
+		-->
+	</dependencies>
+</project>

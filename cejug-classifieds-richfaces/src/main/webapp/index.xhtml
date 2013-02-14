@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<head>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8402531-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</head>
+<ui:composition template="/template/template.xhtml">
+	<ui:define name="pageheader">
+		<div><object data="images/templateNew/logo.svg"
+			type="image/svg+xml" /></div>
+		<div id="headerbar"><a:form id="headerForm">
+			<h:outputText value="Category: " />
+			<a:region>
+				<h:selectOneMenu id="categories"
+					converter="advertisementCategoryConverter"
+					value="#{helloClassifiedsBean.selectedCategory}">
+					<f:selectItems value="#{categoryBean.categories}" />
+					<a:support event="onchange" reRender="categoryPanel"></a:support>
+				</h:selectOneMenu>
+			</a:region>
+			<h:outputText value=" | " />
+			<a:commandLink action="publishAdvertisement"
+				value="Publish Advertisement" styleClass="publishLink" />
+		</a:form> <!-- div id="searchPane"><h:inputText value=""
+			styleClass="inputSearch" /> <a:commandButton
+			image="/images/templateNew/go.png" /></div-->
+		<div id="searchPane">
+		<form
+			action="http://fgaucho.dyndns.org:8080/cejug-classifieds-richfaces/"
+			id="cse-search-box">
+		<div><input type="hidden" name="cx"
+			value="partner-pub-7692178578516455:u2svcf-3yal" /> <input
+			type="hidden" name="cof" value="FORID:9" /> <input type="hidden"
+			name="ie" value="UTF-8" /> <input type="text" name="q" size="31" />
+		<input type="submit" name="sa" value="Search" /></div>
+		</form>
+		</div>
+		</div>
+		<script type="text/javascript"
+			src="http://www.google.ch/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+	</ui:define>
+	<ui:define name="body">
+		<a:loadScript src="/js/starRating.js" />
+		<a:form id="form">
+			<rich:panel>
+				<rich:dataGrid value="#{helloClassifiedsBean.advertisements}"
+					var="adv" columns="3" elements="12" id="categoryPanel"
+					styleClass="advPane" border="0">
+					<div style="align: top;"><rich:panel style="width:98%;">
+						<f:facet name="header">
+							<h:outputText value="#{adv.headline} " />
+						</f:facet>
+						<h:panelGrid columns="2" style="width:100%;"
+							columnClasses="advCol1,advCol2">
+							<h:graphicImage width="60" height="60"
+								value="#{adv.avatarImageOrUrl.url}" style="float:left;" />
+
+							<h:panelGrid rows="3">
+								<h:outputText value="#{adv.summary}" style="float:left;" />
+								<h:outputText value="author:"
+									style="float:none;font-weight:bolder;" />
+								<h:outputText value="#{adv.customer.login}" style="float:left;" />
+								<div id="star">
+								<ul id="star#{adv.entityId}" class="star"
+									onmousedown="star.update(event,this)"
+									onmousemove="star.mouse(event,this)" title="Rate This!">
+									<li id="starCur#{adv.entityId}" class="curr" title="0"
+										style="width: 1px;"></li>
+								</ul>
+								<div style="color: rgb(136, 136, 136);"
+									id="starUser#{adv.entityId}" class="user">0%</div>
+								<br style="clear: both;" />
+								</div>
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:outputText value="#{adv.text}" />
+					</rich:panel> <f:facet name="footer">
+						<rich:datascroller></rich:datascroller>
+					</f:facet></div>
+				</rich:dataGrid>
+			</rich:panel>
+		</a:form>
+	</ui:define>
+</ui:composition>
+<!-- div id="cse-search-results"></div-->
+<!-- script type="text/javascript">
+  var googleSearchIframeName = "cse-search-results";
+  var googleSearchFormName = "cse-search-box";
+  var googleSearchFrameWidth = 800;
+  var googleSearchDomain = "www.google.ch";
+  var googleSearchPath = "/cse";
+</script>
+<script type="text/javascript"
+	src="http://www.google.com/afsonline/show_afs_search.js"></script-->
+</html>

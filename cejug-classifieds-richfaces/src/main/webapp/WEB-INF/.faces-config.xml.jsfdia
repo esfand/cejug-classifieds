@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM
+  NAME="rules:#WebContent#pages#advertisement#publishAdvertisement.xhtml"
+  PATH="/WebContent/pages/advertisement/publishAdvertisement.xhtml"
+  SHAPE="32,385,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="256,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#index.xhtml:0" NAME="item"
+   PATH="/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="publishAdvertisement::#pages#advertisement#publishAdvertisement.xhtml"
+    NAME="output" PATH="/pages/advertisement/publishAdvertisement.xhtml"
+    SHAPE="-1,16"
+    TARGET="rules:#pages#advertisement#publishAdvertisement.xhtml"
+    TITLE="publishAdvertisement" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#advertisement#publishAdvertisement.xhtml"
+  PATH="/pages/advertisement/publishAdvertisement.xhtml"
+  SHAPE="464,17,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="home::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" SHAPE="-1,16" TARGET="rules:#index.xhtml"
+    TITLE="home" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="starRating::#pages#starRating#starRating.xhtml" NAME="output1"
+    PATH="/pages/starRating/starRating.xhtml" SHAPE="-1,24"
+    TARGET="rules:#pages#starRating#starRating.xhtml" TITLE="starRating" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#WebContent#index.xhtml"
+  PATH="/WebContent/index.xhtml" SHAPE="240,401,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM
+  NAME="rules:#WebContent#pages#starRating#starRating.xhtml"
+  PATH="/WebContent/pages/starRating/starRating.xhtml"
+  SHAPE="448,385,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#pages#starRating#starRating.xhtml"
+  PATH="/pages/starRating/starRating.xhtml" SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#security#registrationResults.xhtml"
+  PATH="/pages/security/registrationResults.xhtml" SHAPE="240,289,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#pages#security#login.xhtml"
+  PATH="/pages/security/login.xhtml" SHAPE="32,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#security#login.xhtml:0" NAME="item"
+   PATH="/pages/security/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="register:#{registrationBean.register}:#pages#security#registrationResults.xhtml"
+    NAME="output" PATH="/pages/security/registrationResults.xhtml"
+    SHAPE="-1,16"
+    TARGET="rules:#pages#security#registrationResults.xhtml"
+    TITLE="#{registrationBean.register}:register" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

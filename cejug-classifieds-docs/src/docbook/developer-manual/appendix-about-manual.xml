@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appendix id="appendix-about-manual" label="A">
+    <title>About this manual</title>
+    <section id="about-manual-intro">
+        <title>Introduction</title>
+        <para>
+			This document is created using content written in XML files
+			and compiling those files into different presentation
+			formats. The presentation formats are PDF, Single Page HTML
+			and multiple paged HTML.
+        </para>
+        <note>
+            <title>Write Once</title>
+            <para>
+				The documentation is written only once in XML and gets
+				converted to PDF and HTML from the same source, making
+				maintenance easy. The documentation can also be kept
+				with the source and committed to the source control
+				system as it is now in ASCII format.
+            </para>
+        </note>
+        <para>
+			The XML files were written according to the Docbook DTD
+			standards and the tools available to convert the Docbook XML
+			files into different presentable formats. The documentation
+			is compiled using open source tool
+            <ulink url="http://velocity.apache.org/docbook/">
+                <citetitle>Velocity Docbook Framework</citetitle>
+            </ulink>
+        </para>
+    </section>
+</appendix>

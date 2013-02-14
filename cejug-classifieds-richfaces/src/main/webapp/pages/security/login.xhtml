@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:composition template="/template/template.xhtml">
+	<ui:define name="pageheader">
+		<div><object data="../../images/templateNew/logo.svg"
+			type="image/svg+xml" /></div>
+		<div id="headerbar"><a:form id="headerForm">
+			<a:commandLink action="home" value="Home" styleClass="publishLink" />
+		</a:form></div>
+	</ui:define>
+
+	<ui:define name="adsense"></ui:define>
+
+	<ui:define name="body">
+		<f:verbatim>
+			<form method="post" action="j_security_check">
+			<table class="loginPane">
+				<tr class="loginrow">
+					<th><label class="loginlabel">Username:</label></th>
+					<td><input class="loginfield" type="text" name="j_username"
+						maxlength="#{empty loginMaxlength ? '10' : maxlength}" /></td>
+				</tr>
+				<tr class="loginrow">
+					<th><label class="loginlabel">Password:</label></th>
+					<td><input class="loginfield" type="password"
+						name="j_password" onkeypress="return blockKey(this, event, 32)"
+						maxlength="#{empty passwordMaxlength ? '32' : maxlength}" /></td>
+				</tr>
+				<tr class="loginrow">
+					<td colspan="2"><input type="submit" value="Log In" /></td>
+					<!-- td align="left"><input class="submit" type="reset" /></td-->
+				</tr>
+			</table>
+			</form>
+		</f:verbatim>
+		<hr />
+
+		<rich:messages layout="list" id="messages" styleClass="message"
+			errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"></rich:messages>
+
+		<div style="background: #AFC7C7;">
+		<h3>OR REGISTER</h3>
+
+		<!-- http://cs.ecs.baylor.edu/~cerny/formBuilder/guide.html
+		http://developers.sun.com/docs/jscreator/help/jsp-jsfel/jsf_expression_language_intro.html#getvaluesemantics -->
+		<a:form id="publishForm">
+			<a:keepAlive beanName="registrationBean" />
+			<h:panelGrid columns="2">
+				<h:outputText value="#{msg['login.realname']}" />
+				<h:inputText value="#{registrationBean.name}" style="width:235px;"
+					required="true" label="#{msg['login.realname']}"
+					maxlength="#{empty nameMaxlength ? '60' : nameMaxlength}" />
+				<h:outputText value="#{msg['login.email']}" />
+				<a:region>
+					<h:inputText value="#{registrationBean.email}" style="width:235px;"
+						required="true" label="#{msg['login.email']}"
+						minLength="#{empty emailMinlength ? '3' : maxlength}"
+						maxlength="#{empty emailMaxlength ? '64' : maxlength}"
+						title="max 64 characters">
+						<a:support event="onchange"
+							action="#{registrationBean.emailValidation}" />
+					</h:inputText>
+				</a:region>
+
+				<h:outputText value="#{msg['login.username']}" />
+				<a:region>
+					<h:inputText value="#{registrationBean.login}" style="width:235px;"
+						required="true" label="#{msg['login.username']}"
+						maxlength="#{empty loginMaxlength ? '10' : maxlength}">
+						<a:support event="onchange"
+							action="#{registrationBean.loginValidation}" />
+					</h:inputText>
+				</a:region>
+
+				<h:outputText value="#{msg['login.password']}" />
+				<h:inputSecret value="#{registrationBean.password}"
+					style="width:235px;" required="true"
+					label="#{msg['login.password']}"
+					validator="#{registrationBean.validatePassword}"
+					maxlength="#{empty passwordMaxlength ? '32' : maxlength}" />
+
+				<h:outputText value="#{msg['login.password.check']}" />
+				<a:region>
+					<h:inputSecret value="#{registrationBean.checkPassword}"
+						style="width:235px;" required="true"
+						label="#{msg['login.password.check']}"
+						maxlength="#{empty passwordMaxlength ? '32' : maxlength}">
+						<a:support event="onchange" />
+					</h:inputSecret>
+				</a:region>
+			</h:panelGrid>
+			<div style="background: #AFC7C7;"><p:captcha
+				publicKey="6Lfa8gQAAAAAABkjCe-2sanpicOA3Gxk2sirA6CA"
+				label="#{msg['login.captcha']}" /></div>
+			<h:commandButton action="#{registrationBean.register}"
+				value="REGISTER" />
+		</a:form></div>
+		<f:view>
+			<hr />
+			<div style="alignment: center;"><small><h:outputText
+				value="CEJUG-CLASSIFIEDS-LABS: This is a test login/registration page. Login is handled by the Java EE Container while the
+		 Registration just pushes a registration message in a Registration javax.jms.Queue  - the message 
+		 is later consumed by a Message Driven Bean encharged in to create a new customer record in the dabatase
+		 and redirect the message to the Notification Queue for further customer email notification. After
+		 getting stable, this code should be integrated in the frontpage as a simple login/registration
+		block. i18n and css enhacements are expected in the production version." /></small></div>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

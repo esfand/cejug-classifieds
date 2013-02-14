@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="cejug-classifieds-business"
+	targetNamespace="http://cejug-classifieds.dev.java.net/business"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:business="http://cejug-classifieds.dev.java.net/business"
+	xmlns:metadata="http://cejug-classifieds.dev.java.net/metadata/business"
+	xmlns:atom10="http://www.w3.org/2005/Atom" xmlns:common-wsdl="http://cejug-classifieds.dev.java.net/common">
+	<wsdl:import namespace="http://cejug-classifieds.dev.java.net/common"
+		location="common.wsdl" />
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://cejug-classifieds.dev.java.net/metadata/business"
+				schemaLocation="business.xsd" />
+			<xsd:include schemaLocation="rss-2_0.xsd" />
+			<xsd:import namespace="http://www.w3.org/2005/Atom"
+				schemaLocation="atom10.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- MESSAGES -->
+	<!-- LOAD RSS -->
+	<wsdl:message name="LoadRss">
+		<wsdl:part element="metadata:RssFilter" name="filter" />
+	</wsdl:message>
+	<wsdl:message name="LoadRssResponse">
+		<wsdl:part element="rss" name="rss.2.0" />
+	</wsdl:message>
+
+	<!-- LOAD ATOM -->
+	<wsdl:message name="LoadAtom">
+		<wsdl:part element="metadata:AtomFilter" name="filter" />
+	</wsdl:message>
+	<wsdl:message name="LoadAtomResponse">
+		<wsdl:part element="atom10:feed" name="atom.1.0" />
+	</wsdl:message>
+
+	<!-- GET ADVERTISEMENT COLLECTION -->
+	<wsdl:message name="LoadAdvertisement">
+		<wsdl:part element="metadata:AdvertisementCollectionFilter"
+			name="filter" />
+	</wsdl:message>
+	<wsdl:message name="LoadAdvertisementResponse">
+		<wsdl:part element="metadata:AdvertisementCollection" name="advertisements" />
+	</wsdl:message>
+
+	<!-- ADVERTISEMENT PUBLISHING -->
+	<wsdl:message name="Publish">
+		<wsdl:part element="metadata:Advertisement" name="advertisement" />
+		<wsdl:part name="header" element="metadata:PublishingHeader" />
+	</wsdl:message>
+	<wsdl:message name="PublishResponse">
+		<wsdl:part element="metadata:Advertisement" name="adv" />
+	</wsdl:message>
+
+	<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- PORT -->
+	<wsdl:portType name="CejugClassifiedsBusiness">
+		<wsdl:operation name="ReadCategoryBundleOperation">
+			<wsdl:input name="ReadCategoryBundle" message="common-wsdl:ReadCategoryBundle" />
+			<wsdl:output message="common-wsdl:CategoryBundle" />
+			<wsdl:fault name="ReadCategoryBundleException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="LoadAdvertisementOperation">
+			<wsdl:input message="business:LoadAdvertisement" />
+			<wsdl:output message="business:LoadAdvertisementResponse" />
+			<wsdl:fault name="LoadAdvertisementException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="LoadRssOperation">
+			<wsdl:input message="business:LoadRss" />
+			<wsdl:output message="business:LoadRssResponse" />
+			<wsdl:fault name="LoadRssException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="LoadAtomOperation">
+			<wsdl:input message="business:LoadAtom" />
+			<wsdl:output message="business:LoadAtomResponse" />
+			<wsdl:fault name="LoadAtomException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="PublishOperation">
+			<wsdl:input message="business:Publish" />
+			<wsdl:output message="business:PublishResponse" />
+			<wsdl:fault name="PublishException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReportSpamOperation">
+			<wsdl:input name="advertisement.id" message="common-wsdl:PrimaryKey" />
+			<wsdl:output message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="ReportSpamException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<!-- CUSTOMER CRUD -->
+		<wsdl:operation name="CreateCustomerOperation">
+			<wsdl:documentation>
+				CRUD - Creates a new customer. Only
+				administrators can
+				create categories. If the customer already exists,
+				it
+				throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:CreateCustomerMsg" />
+			<wsdl:output name="CreateCustomerResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="CreateCustomerException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadCustomerBundleOperation">
+			<wsdl:documentation>
+				CRUD - Read all active categories from the
+				database.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:ReadCustomerBundleMsg" />
+			<wsdl:output message="common-wsdl:CustomerBundle" />
+			<wsdl:fault name="ReadCustomerBundleException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateCustomerOperation">
+			<wsdl:documentation>
+				CRUD - Updates a customer (merge new attributes
+				data in
+				the database). If the customer doesn't exists it throws
+				an
+				exception, otherwise it return an HTTP Created status
+				(201).
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:UpdateCustomerMsg" />
+			<wsdl:output name="UpdateCustomerResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="UpdateCustomerException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteCustomerOperation">
+			<wsdl:documentation>
+				CRUD - Deletes the customer by its ID. If the
+				customer
+				doesn't exist in the database, it throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:DeleteCustomerMsg" />
+			<wsdl:output name="DeleteCustomerResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="DeleteCustomerException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadAdvertisementTypeBundleOperation">
+			<wsdl:documentation>
+				<pre>
+					Returns a collection of advertisement types, used to
+					enumerate the available types to end customers. Each
+					type has an ID also used by the Domains to proceed CRUD
+					operation about advertisements. There is a mapping (n:n)
+					between Domains and Advertisement Types - not all types
+					registered in the database are avaialble to all domains.</pre>
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:ReadAdvertisementTypeBundle" />
+			<wsdl:output message="common-wsdl:AdvertisementTypeBundle" />
+			<wsdl:fault name="ReadAllAdvertisementTypesException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- BINDING -->
+	<wsdl:binding name="CejugClassifiedsBusinessBinding" type="business:CejugClassifiedsBusiness">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ReadCategoryBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/LoadCategories" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LoadAdvertisementOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/LoadAdvertisement" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LoadRssOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/LoadRss" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LoadAtomOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/LoadAtom" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PublishOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/Publish" />
+			<wsdl:input>
+				<soap:body use="literal" parts="advertisement" />
+				<soap:header message="business:Publish" part="header"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReportSpamOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/ReportSpam" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- CUSTOMER -->
+		<wsdl:operation name="CreateCustomerOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/CreateCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadCustomerBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/LoadCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateCustomerOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/UpdateCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteCustomerOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/DeleteCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadAdvertisementTypeBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/business/LoadAdvertisementType" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CejugClassifiedsServiceBusiness">
+		<wsdl:documentation>
+			<Version>$Rev: 1148 $</Version>
+		</wsdl:documentation>
+		<wsdl:port name="CejugClassifiedsBusiness" binding="business:CejugClassifiedsBusinessBinding">
+			<soap:address location="http://fgaucho.dyndns.org:8080/CejugClassifiedsServiceBusiness/BusinessEndpointDecorator" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>cejug-classifieds-richfaces</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<context-param>
+		<param-name>confirmationUrl</param-name>
+		<param-value>http://fgaucho.dyndns.org:8080/cejug-classifieds-login-rest/confirm?key=</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.primefaces.ui.component.captcha.PRIVATE_KEY</param-name>
+		<param-value>6Lfa8gQAAAAAACPD2di4BdsJh0a4wdnBxHg7o0jX</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>facelets.DEVELOPMENT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.validateXml</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.verifyObjects</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.enableViewStateIdRendering</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.richfaces.SKIN</param-name>
+		<param-value>DEFAULT</param-value>
+	</context-param>
+	<filter>
+		<display-name>RichFaces Filter</display-name>
+		<filter-name>richfaces</filter-name>
+		<filter-class>org.ajax4jsf.Filter</filter-class>
+		<init-param>
+			<param-name>createTempFiles</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxRequestSize</param-name>
+			<param-value>20000000</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>richfaces</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
+	<filter>
+		<filter-name>ExpiresFilter</filter-name>
+		<filter-class>
+			net.java.dev.cejug.classifieds.richfaces.util.ExpiresFilter</filter-class>
+		<init-param>
+			<param-name>Cache-Control</param-name>
+			<param-value>max-age=3600</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ExpiresFilter</filter-name>
+		<url-pattern>/css/*</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.faces</url-pattern>
+		<url-pattern>/a4j/g/*</url-pattern>
+		<url-pattern>/a4j/s/3_2_2.GAorg/richfaces/renderkit/html/css/basic_classes.xcss/DATB/eAELXT5DOhSIAQ/*</url-pattern>		
+		<url-pattern>/js/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<security-constraint>
+		<display-name>Restrict XHTML documents</display-name>
+		<web-resource-collection>
+			<web-resource-name>XHTML</web-resource-name>
+			<description />
+			<url-pattern>*.xhtml</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>PUT</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>With no roles defined, no access granted</description>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>Restrict advertisement pages to customers</display-name>
+		<web-resource-collection>
+			<web-resource-name>CustomerPages</web-resource-name>
+			<description />
+			<url-pattern>/pages/advertisement/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>PUT</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Only Let customers access to advertisment pages</description>
+			<role-name>customer</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>classifieds-realm</realm-name>
+
+		<form-login-config>
+			<form-login-page>/pages/security/login.faces</form-login-page>
+			<form-error-page>/pages/security/error.faces</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<security-role>
+		<description />
+		<role-name>customer</role-name>
+	</security-role>
+	<security-role>
+		<description />
+		<role-name>admin</role-name>
+	</security-role>
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.xhtml</url-pattern>
+			<deferred-syntax-allowed-as-literal>true</deferred-syntax-allowed-as-literal>
+		</jsp-property-group>
+		<!--
+			jsp-property-group> <url-pattern>*.jsp</url-pattern>
+			<deferred-syntax-allowed-as-literal>true</deferred-syntax-allowed-as-literal>
+			</jsp-property-group
+		-->
+	</jsp-config>
+</web-app>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:config="http://cejug-classifieds.dev.java.net/server/config"
+	targetNamespace="http://cejug-classifieds.dev.java.net/server/config"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.0"
+	elementFormDefault="qualified">
+
+	<xsd:element name="config" type="config:classifieds.server.config" />
+
+	<xsd:complexType name="classifieds.server.config">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<jaxb:package>
+					<jaxb:javadoc>
+						CEJUG-Classifieds-Server Properties package
+						javadoc...
+					</jaxb:javadoc>
+				</jaxb:package>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence minOccurs="0" maxOccurs="1">
+			<xsd:element name="injection" type="config:Injection" />
+			<xsd:element name="monitor" type="config:Monitor" />
+		</xsd:sequence>
+		<xsd:attribute name="title" type="xsd:token" use="optional" />
+		<xsd:attribute name="version" type="xsd:string" use="required" />
+		<xsd:attribute name="date" type="xsd:string" use="optional" />
+		<xsd:attribute name="idiom" type="xsd:language" use="optional" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Injection">
+		<xsd:attribute name="service.implementation" type="xsd:string"
+			use="optional" />
+		<xsd:attribute name="admin.session.bean" type="xsd:string"
+			use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="Monitor">
+		<xsd:attribute name="timer.queue.length" type="xsd:int"
+			use="optional" />
+	</xsd:complexType>
+</xsd:schema>

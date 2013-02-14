@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="help" name="quality-assurance">
+	<property file="build.properties" />
+	<property environment="env" />
+
+	<target name="help">
+		<echo message=" >> ATTENTION >>    ${DBF_HOME} should be well configured" />
+		<echo message=" >> ATTENTION >>    GLASSFISH:  https://glassfish.dev.java.net/" />
+		<echo message="" />
+		<echo message="Thanks for testing Footprint. Any feedback? dev@footprint.dev.java.net" />
+	</target>
+
+
+	<target name="validate.xml.documents">
+		<xmlvalidate failonerror="yes" lenient="no" warn="yes">
+			<fileset dir="${src.dir}" includes="**/*.xm*" excludes="**/**/styles/pdf/"/>
+			<attribute name="http://apache.org/xml/features/nonvalidating/load-dtd-grammar" value="false" />
+			<attribute name="http://apache.org/xml/features/validation/dynamic" value="true" />
+			<attribute name="http://xml.org/sax/features/validation" value="true" />
+			<attribute name="http://apache.org/xml/features/validation/schema" value="true" />
+			<attribute name="http://apache.org/xml/features/validation/schema-full-checking" value="true" />
+			<attribute name="http://apache.org/xml/features/allow-java-encodings" value="true" />
+		</xmlvalidate>
+
+		<!-- http://xerces.apache.org/xerces-j/features.html -->
+		<!--schemavalidate failonerror="yes" lenient="no" warn="yes" disabledtd="true" fullchecking="false">
+            <fileset dir="${contract.folder}" includes="**/**"/>
+        </schemavalidate-->
+	</target>
+</project>

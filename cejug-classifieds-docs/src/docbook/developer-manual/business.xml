@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="business">
+	<title>Business scenario</title>
+	<section id="business.model">
+		<title>Business Model</title>
+		<para>The business model of cejug-classifieds is composed by
+			three
+			stake-holders: a backend system, a frontend GUI and the customers.
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					Customer : The person who uses the frontend. A customer never
+					interacts directly with the backend
+					system.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Domain owner : The frontend administrator.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					System administrator : the backend administrator.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Moderator : administrator helpers, people that can do a
+					limited number of administrative operations, like report spam.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<section id="business.affiliation">
+			<title>The affiliation procedure of Cejug-Classifieds Server
+			</title>
+			<para>
+				The cash-flow of Cejug-Classifieds is based on a procedure of
+				affiliation of one or more clients to the cejug-classifieds-server
+				(see
+				<biblioref linkend="bib.affiliation" />
+				).
+				This
+				procedure allow the same content to be shared, enhacing the
+				potential of consume of advertisements. The basic rules of the
+				<emphasis>Cejug Classifieds affiliation procedure</emphasis>
+				is listed
+				below:
+			</para>
+		</section>
+	</section>
+	<section id="business.roles">
+		<title>Business Roles</title>
+		<para></para>
+		<section id="roles.customer">
+			<title>Customer</title>
+			<para>
+				The person who uses the frontend.
+			</para>
+		</section>
+		<section id="roles.domain.owner">
+			<title>Domain owner</title>
+			<para>
+				The frontend administrator.
+			</para>
+		</section>
+		<section id="roles.admin">
+			<title>System administrator</title>
+			<para>The backend administrator.</para>
+		</section>
+		<section id="roles.moderator">
+			<title>Moderators</title>
+			<para>Administrator helpers, people that can do a
+				limited number of administrative operations, like report spam.
+			</para>
+		</section>
+	</section>
+	<section id="user.histories">
+		<title>User histories</title>
+		<para></para>
+		<section id="uh.publish">
+			<title>Publish advertisement</title>
+			<para></para>
+		</section>
+		<section id="uh.read">
+			<title>Read advertisement</title>
+			<para></para>
+		</section>
+		<section id="uh.spam">
+			<title>Report SPAM (asynchronous)</title>
+			<para>Customer perspective</para>
+			<orderedlist>
+				<listitem>
+					<para>
+						a customer publishes an advertisement
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Another customer read the advertisement and figure out
+						its
+						contents
+						is forbidden according the web-site rules (offensive
+						content, slang
+						terms, etc). This another customer click a button
+						(or
+						other control
+						mechanism) to notify the owners of the web-site
+						that
+						someone
+						published
+						a SPAM advertisement.</para>
+				</listitem>
+				<listitem>
+					<para>
+						Each customer can report Spam just once for each
+						advertisement.
+						And the report spam has not rollback option, what
+						means if a
+						customer
+						reported a Spam he cannot change his mind and
+						revert his
+						vote.</para>
+				</listitem>
+				<listitem>
+					<para>
+						the user history finishes, and the reporter
+						waits
+						for the
+						action of
+						the classifieds owners.</para>
+				</listitem>
+			</orderedlist>
+
+			<para>Business logic (on the service side)</para>
+			<orderedlist>
+				<listitem>
+					<para>
+						The advertisement entities
+						has a SPAM hits counter, with
+						default
+						value zero
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Hence a report
+						spam, the system increase the spam counter of
+						an
+						advertisement in one
+						unit.
+					</para>
+				</listitem>
+				<listitem>
+					<para>The classifieds-server has a configurable "SPAM
+						threshold",
+						and
+						every time an advertisement spam counter reaches
+						this threashold,
+						the
+						advertisement IS is send to the moderators
+						mailing list
+					</para>
+				</listitem>
+				<listitem>
+					<para>The
+						moderators can confirm the content as SPAm and change
+						the
+						status of
+						the advertisement to SPAM.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						if an advertisement state is SPAM, it do
+						not show anymore on the
+						screen.
+						<emphasis>Unless the system administrator
+							change it status in
+							the
+							future.</emphasis>
+					</para>
+				</listitem>
+				<listitem>
+					<para>The moderators can report spam
+						automatically, what means if
+						the
+						role of the reporter is equivalent to
+						a classifieds moderator,
+						one
+						unique report is enough to change the
+						status of the
+						advertisement to
+						SPAM.
+					</para>
+				</listitem>
+			</orderedlist>
+		</section>
+		<section id="uh.ratings">
+			<title>Publisher Ratings</title>
+			<para></para>
+		</section>
+	</section>
+</chapter>

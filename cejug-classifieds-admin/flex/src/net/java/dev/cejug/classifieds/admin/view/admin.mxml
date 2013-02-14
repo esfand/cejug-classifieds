@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	xmlns:login="net.java.dev.cejug.classifieds.admin.view.login.*"
+	xmlns:view="net.java.dev.cejug.classifieds.admin.view.*"
+	xmlns:controller="net.java.dev.cejug.classifieds.admin.controller.*" currentState="login"
+	creationComplete="adminService.init(event)" >
+	
+	<controller:AdminController id="adminService" />
+	<mx:states>
+		<mx:State name="login">
+    		<mx:AddChild position="lastChild">
+	    	    <login:login id="loginScreen" y="57" width="100%" height="100%" />
+    		</mx:AddChild>
+		</mx:State>
+		<mx:State name="main">
+    		<mx:AddChild position="lastChild">
+            	<view:main id="mainScreen" y="57" width="100%" height="100%"/>
+    		</mx:AddChild>
+		</mx:State>
+	</mx:states>
+  
+    <mx:ApplicationControlBar id="acb" width="100%">
+        <mx:Image source="@Embed(source='../../../../../../../../web/images/logo_small.gif')"  verticalAlign="bottom" height="40"/>
+        <mx:Label text="Cejug Classifieds Admin" fontSize="18" fontWeight="bold" color="#f0f0f0"/>
+        <mx:Spacer width="100%"/>
+        <mx:Button label="Logout" click="{adminService.logout()}" visible="{AdminController.loginInfoVisible}"/>
+    </mx:ApplicationControlBar>
+</mx:Application>

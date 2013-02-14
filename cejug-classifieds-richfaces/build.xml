@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cejug-classifieds-richfaces" default="generate-stubs" basedir=".">
+	<description>Builds, tests, and runs the project cejug-classifieds-web.</description>
+	<import file="quality.xml" />
+
+	<property file="build.properties" />
+	<property environment="env" />
+
+	<!--path id="project.classpath">
+		<pathelement location="${java.home}/../lib/tools.jar" />
+		<fileset dir="${env.AS_HOME}/lib/">
+			<include name="javaee.jar" />
+			<include name="appserv-ws.jar" />
+		</fileset>
+		<fileset dir="${project.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path-->
+
+	<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+
+	<target name="clean">
+		<delete dir="${build.classes.home}" includeEmptyDirs="true" />
+		<delete dir="${build.ear.home}" includeEmptyDirs="true" />
+		<!--delete dir="${generated.dir}" includeEmptyDirs="true" /-->
+	</target>
+
+	<!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties 
+      -post-init:                called after initialization of project properties 
+      -pre-compile:              called before javac compilation 
+      -post-compile:             called after javac compilation 
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-dist:                 called before archive building 
+      -post-dist:                called after archive building 
+      -post-clean:               called after cleaning build products 
+      -pre-run-deploy:           called before deploying
+      -post-run-deploy:          called after deploying
+
+    Example of pluging an obfuscator after the compilation could look like 
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Other way how to customize the build is by overriding existing main targets.
+    The target of interest are: 
+
+      init-macrodef-javac:    defines macro for javac compilation
+      init-macrodef-junit:   defines macro for junit execution
+      init-macrodef-debug:    defines macro for class debugging
+      do-dist:                archive building
+      run:                    execution of project 
+      javadoc-build:          javadoc generation 
+
+    Example of overriding the target for project execution could look like 
+
+        <target name="run" depends="<PROJNAME>-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that overridden target depends on jar target and not only on 
+    compile target as regular run target does. Again, for list of available 
+    properties which you can use check the target you are overriding in 
+    nbproject/build-impl.xml file. 
+
+    -->
+	<target name="setup" depends="clean">
+		<mkdir dir="${build.classes.home}" />
+		<mkdir dir="${generated.dir}" />
+	</target>
+
+	<target name="generate-stubs" depends="setup">
+		<!--wsimport debug="true" verbose="${verbose}" keep="true" extension="false" destdir="${generated.dir}" wsdl="${service.admin.wsdl}" wsdllocation="${service.admin.wsdl}">
+			<produces dir="${generated.dir}" includes="${generated.dir}/**/*.java" />
+			<xjcarg value="-nv" />
+		</wsimport-->
+		<wsimport debug="true" verbose="${verbose}" keep="true" extension="false" destdir="${generated.dir}" wsdl="${service.business.wsdl}" wsdllocation="${service.business.wsdl}">
+			<binding dir="${basedir}" includes="customization.xml" />
+			<produces dir="${generated.dir}" includes="${generated.dir}/**/*.java" />
+		</wsimport>
+		<javac fork="true" srcdir="${basedir}" destdir="${build.classes.home}" includes="${generated.dir}/**/**,src/**/**,resources/**/**" debug="${compile.debug}" debuglevel="lines,vars,source">
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="create-war" depends="generate-stubs">
+		<mkdir dir="${war.home}"/>
+		<war warfile="${war.home}/${ant.project.name}.war" webxml="${build.home}/web.xml">
+			<webinf dir="${build.home}" includes="**/**" />
+			<zipfileset dir="${basedir}/WebContent/" includes="**/**" excludes="**/WEB-INF/**/**" />
+			<zipfileset dir="resources" prefix="WEB-INF/classes" />
+			<classes dir="${build.classes.home}" includes="**/**" />
+		</war>
+	</target>
+
+	<target name="deploy" depends="create-war">
+		<copy file="${war.home}/${ant.project.name}.war" todir="${env.AS_HOME}/domains/${domain}/autodeploy" />
+	</target>
+
+	<!-- continuous integration task -->
+	<target name="hudson">
+		<antcall target="generate-stubs" />
+		<antcall target="pmd" />
+		<antcall target="findbugs" />
+		<antcall target="javadoc.with.uml" />
+		<antcall target="deploy" />		
+	</target>
+	
+	<!-- continuous integration task -->
+	<target name="hudson2">
+		<antcall target="generate-stubs" />
+		<antcall target="pmd" />
+		<antcall target="findbugs" />
+		<antcall target="javadoc.with.uml" />
+	</target>
+</project>

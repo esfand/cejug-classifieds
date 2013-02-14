@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/template/template.xhtml">
+	<ui:define name="pageheader">
+		<div><h:graphicImage value="/images/templateNew/header.png"
+			styleClass="logo" /></div>
+		<div id="headerbar"><a:form id="headerForm">
+			<a:commandLink action="home" value="Home" styleClass="publishLink" />
+		</a:form>
+
+
+		<div id="searchPane"><h:inputText value=""
+			styleClass="inputSearch" /> <a:commandButton
+			image="/images/templateNew/go.png" /></div>
+		</div>
+	</ui:define>
+	<ui:define name="body">
+
+		<style>
+.top {
+	vertical-align: top;
+}
+
+.info {
+	height: 202px;
+	overflow: auto;
+}
+
+.rich-calendar-button {
+	float: none;
+}
+</style>
+		<a:form id="publishForm" ajaxSubmit="true">
+			<a:keepAlive beanName="publishAdvertisementBean" />
+			<a:loadScript src="/js/classifieds.js" />
+
+			<rich:messages layout="list" id="messages" styleClass="message"
+				errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"></rich:messages>
+
+			<rich:toolBar height="10" itemSeparator="line">
+				<rich:toolBarGroup>
+					<a:commandLink style="border:none;"
+						action="#{publishAdvertisementBean.publish}"
+						reRender="publishForm, tabPanel">
+						<h:graphicImage value="/images/publish.jpg" style="border:none;" />
+					</a:commandLink>
+				</rich:toolBarGroup>
+			</rich:toolBar>
+
+			<rich:tabPanel switchType="ajax" id="tabPanel"
+				selectedTab="#{publishAdvertisementBean.selectedTab}">
+				<rich:tab label="#{msg['publishadv.tab.advertisement']}" name="tab1"
+					id="tab1">
+					<a:support event="ontableave" reRender="panelPreview"></a:support>
+					<h:panelGrid columns="1">
+						<h:outputText value="#{msg['publishadv.category']}" />
+						<h:selectOneMenu id="categories"
+							converter="advertisementCategoryConverter"
+							value="#{publishAdvertisementBean.selectedCategory}">
+							<f:selectItems value="#{categoryBean.categories}" />
+						</h:selectOneMenu>
+
+						<h:panelGrid columns="2">
+							<h:outputText value="#{msg['publishadv.date.start']}" />
+
+							<h:outputText value="#{msg['publishadv.date.finish']}" />
+
+							<rich:calendar value="#{publishAdvertisementBean.startDate}"
+								label="#{msg['publishadv.date.start']}" popup="true"
+								datePattern="dd/MM/yyyy" showApplyButton="false"
+								cellWidth="24px" cellHeight="22px" style="width:200px"
+								required="true" id="start" />
+
+							<rich:calendar value="#{publishAdvertisementBean.finishDate}"
+								label="#{msg['publishadv.date.finish']}" popup="true"
+								datePattern="dd/MM/yyyy" showApplyButton="false"
+								cellWidth="24px" cellHeight="22px" style="width:200px"
+								required="true" id="finish" />
+						</h:panelGrid>
+
+						<h:outputText value="#{msg['publishadv.headline']}" />
+						<h:inputText
+							value="#{publishAdvertisementBean.advertisement.headline}"
+							style="width:230px;" required="true" label="Headline"
+							maxlength="#{empty adsMaxlength ? '50' : adsMaxlength}" />
+						<h:outputText value="#{msg['publishadv.keywords']}"
+							style="width:230px;" />
+						<h:inputText
+							value="#{publishAdvertisementBean.advertisement.keywords}"
+							maxlength="#{empty keywordsMaxlength ? '100' : keywordsMaxlength}" />
+
+						<h:outputText value="#{msg['publishadv.locale']}" />
+						<h:inputText
+							value="#{publishAdvertisementBean.advertisement.locale}"
+							maxlength="#{empty localeMaxlength ? '10' : localeMaxlength}" />
+
+
+						<h:outputText value="#{msg['publishadv.summary']}" />
+						<h:inputTextarea
+							value="#{publishAdvertisementBean.advertisement.summary}"
+							onkeypress="return blockKey(this, event, 500)"
+							onkeydown="return ismaxlength(this,500)"
+							onkeyup="return ismaxlength(this,500)" cols="55" rows="4" />
+
+						<h:outputText value="#{msg['publishadv.text']}" />
+						<h:inputTextarea
+							value="#{publishAdvertisementBean.advertisement.text}"
+							onkeypress="return blockKey(this, event, 500)"
+							onkeydown="return ismaxlength(this,500)"
+							onkeyup="return ismaxlength(this,500)" cols="55" rows="4" />
+
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab label="#{msg['publishadv.tab.avatar']}">
+					<a:support event="ontableave" reRender="panelPreview"></a:support>
+					<h:panelGrid columns="1">
+						<a:region>
+							<h:selectOneRadio value="#{publishAdvertisementBean.avatarType}"
+								size="1">
+								<f:selectItems value="#{publishAdvertisementBean.avatarTypes}" />
+								<a:support event="onclick" reRender="avatarType" />
+							</h:selectOneRadio>
+						</a:region>
+					</h:panelGrid>
+					<h:panelGrid columns="1" id="avatarType">
+						<h:panelGrid columns="1"
+							rendered="#{publishAdvertisementBean.avatarType =='G'}">
+							<h:outputText
+								value="#{msg['publishadv.email.address']} ???@???.com" />
+							<span style="font: 10px arial; color: red;">Not fully
+							implemented. This feature depends on the login module (under
+							progress). For now, you can type any email in the below text
+							field - and this email will be used to retrieve the gravatar. In
+							the near future, this email will be automatically retrieved from
+							the customers table in the database. Other image providers can be
+							included as option and Gravatar will be a combo box then... If
+							you are a developer from Cejug-Classifieds, hands on :) be
+							welcome to design and implement it...</span>
+							<h:inputText
+								value="#{publishAdvertisementBean.advertisement.avatarImageOrUrl.gravatarEmail}"
+								style="width:230px;" required="true" label="Email" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="1"
+							rendered="#{publishAdvertisementBean.avatarType =='U'}">
+							<h:outputText value="#{msg['publishadv.url']}" />
+							<h:inputText
+								value="#{publishAdvertisementBean.advertisement.avatarImageOrUrl.url}"
+								style="width:230px;" required="true" label="Url" />
+							<h:outputText value="#{msg['publishadv.name']}" />
+							<h:inputText
+								value="#{publishAdvertisementBean.advertisement.avatarImageOrUrl.name}"
+								style="width:230px;" required="true" label="Name" />
+							<h:outputText value="#{msg['publishadv.description']}" />
+							<h:inputText
+								value="#{publishAdvertisementBean.advertisement.avatarImageOrUrl.description}"
+								style="width:230px;" required="true" label="Description" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" columnClasses="top,top"
+							rendered="#{publishAdvertisementBean.avatarType =='I'}">
+							<rich:fileUpload
+								fileUploadListener="#{publishAdvertisementBean.listener}"
+								maxFilesQuantity="#{publishAdvertisementBean.uploadsAvailable}"
+								reRender="table" id="upload"
+								immediateUpload="#{publishAdvertisementBean.autoUpload}"
+								acceptedTypes="jpg, gif, png, bmp"
+								allowFlash="#{publishAdvertisementBean.useFlash}"
+								listHeight="60px">
+								<a:support event="onuploadcomplete" reRender="info, imgupload" />
+							</rich:fileUpload>
+
+							<h:panelGroup id="info">
+								<rich:panel bodyClass="info">
+									<f:facet name="header">
+										<h:outputText value="Uploaded Files Info" />
+									</f:facet>
+									<h:outputText value="No files currently uploaded"
+										rendered="#{publishAdvertisementBean.size==0}" />
+									<rich:dataGrid columns="1"
+										value="#{publishAdvertisementBean.files}" var="file"
+										rowKeyVar="row">
+										<rich:panel bodyClass="rich-laguna-panel-no-header">
+											<h:panelGrid columns="1">
+												<a:mediaOutput element="img" mimeType="#{file.contentType}"
+													createContent="#{publishAdvertisementBean.paint}"
+													value="#{row}" style="width:100px; height:100px;"
+													cacheable="false">
+													<f:param value="#{publishAdvertisementBean.timeStamp}"
+														name="time" />
+												</a:mediaOutput>
+
+											</h:panelGrid>
+										</rich:panel>
+									</rich:dataGrid>
+								</rich:panel>
+								<rich:spacer height="3" />
+								<br />
+								<a:commandButton
+									action="#{publishAdvertisementBean.clearUploadData}"
+									reRender="info, upload" value="Clear Uploaded Data"
+									rendered="#{publishAdvertisementBean.size>0}" />
+							</h:panelGroup>
+							<h:column></h:column>
+						</h:panelGrid>
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab label="#{msg['publishadv.tab.preview']}">
+					<rich:panel id="panelPreview">
+						<f:facet name="header">
+							<h:outputText
+								value="#{publishAdvertisementBean.advertisement.headline} "></h:outputText>
+						</f:facet>
+						<h:panelGrid columns="2">
+							<h:graphicImage
+								value="#{publishAdvertisementBean.advertisement.avatarImageOrUrl.url}"
+								style="width:100px; height:100px;"
+								rendered="#{publishAdvertisementBean.avatarType == 'U'}" />
+
+							<a:mediaOutput element="img" mimeType="#{file.contentType}"
+								createContent="#{publishAdvertisementBean.paint}" value="0"
+								style="width:100px; height:100px;" cacheable="false"
+								rendered="#{publishAdvertisementBean.avatarType == 'I' and 
+								not empty publishAdvertisementBean.advertisement.avatarImageOrUrl.image.value}">
+							</a:mediaOutput>
+
+							<h:outputText
+								value="#{publishAdvertisementBean.advertisement.text}" />
+						</h:panelGrid>
+					</rich:panel>
+				</rich:tab>
+			</rich:tabPanel>
+		</a:form>
+	</ui:define>
+</ui:composition>
+</html>

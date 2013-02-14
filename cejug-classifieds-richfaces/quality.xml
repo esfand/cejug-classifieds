@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="audit" name="cejug-classifieds-server">
+	<property file="build.properties" />
+	<property environment="env" />
+	<property name="dev.lib" value="${basedir}/dev-lib" />
+	<property name="build.ear.home" value="${build.home}/ear" />
+	<property name="build.classes.home" value="${build.home}/classes" />
+	<property name="domain" value="domain1" />
+
+	<path id="project.classpath">
+		<!--pathelement location="${java.home}/../lib/tools.jar" /-->
+		<fileset dir="${env.AS_HOME}/lib/">
+			<include name="javaee.jar" />
+			<include name="appserv-ws.jar" />
+		</fileset>
+		<fileset dir="${project.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${dev.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" description="http://findbugs.sourceforge.net/manual/anttask.html">
+		<classpath refid="project.classpath" />
+	</taskdef>
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" description="http://pmd.sourceforge.net/ant-task.html">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+	<target name="findbugs">
+		<findbugs home="${dev.lib}/findbugs" output="xml:withMessages" outputFile="${reports.home}/findbugs/findbugs.xml" failOnError="true" effort="max">
+			<auxClasspath refid="project.classpath" />
+			<sourcePath path="${basedir}/src" />
+			<class location="${build.classes.home}" />
+		</findbugs>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.classes.home}" includeEmptyDirs="true" />
+		<delete dir="${build.ear.home}" includeEmptyDirs="true" />
+		<delete dir="${generated.dir}" includeEmptyDirs="true" />
+	</target>
+	<target name="setup" depends="clean">
+		<mkdir dir="${build.classes.home}" />
+		<mkdir dir="${build.ear.home}" />
+		<mkdir dir="${build.ear.home}/lib" />
+		<mkdir dir="${generated.dir}" />
+	</target>
+
+	<target name="help">
+		<echo message="server:             Builds the service endpoint EJB-Module" />
+		<echo message="deploy:             Deploy the EAR file to the Glassfish autodeploy folder" />
+		<echo message="run.tests:   Runs the run.tests against the delpoyied service" />
+		<echo message="" />
+
+		<echo message=" >> ATTENTION >>    ${AS_HOME} should be well configured (your system points to" />
+		<echo message=" >> ATTENTION >>    in your system, AS_HOME = ${AS_HOME}" />
+		<echo message=" >> ATTENTION >>    Be sure to have GLASSFISH properly installed" />
+		<echo message=" >> ATTENTION >>    GLASSFISH:  https://glassfish.dev.java.net/" />
+		<echo message="" />
+		<echo message="Thanks for testing Cejug-Classifieds. Any feedback? dev@cejug-classifieds.dev.java.net" />
+	</target>
+
+
+
+	<target name="compile.tests">
+		<javac srcdir="test/integration" destdir="${build.classes.home}">
+			<classpath refid="project.classpath" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+
+	<path id="tests.classpath">
+		<pathelement location="${build.classes.home}" />
+		<fileset dir="${dev.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Test -->
+	<target name="run.tests" depends="compile.tests">
+		<junit fork="yes" haltonfailure="yes" printsummary="no">
+			<test name="${test.suite}" todir="${reports.home}/junit" />
+			<classpath refid="tests.classpath" />
+			<formatter type="xml" />
+			<jvmarg value="-Dcom.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=${log}" />
+		</junit>
+	</target>
+
+	<!-- Verify source code with PMD -->
+	<target name="pmd">
+		<!-- where the report will be generated -->
+		<mkdir dir="${reports.home}/pmd" />
+		<pmd rulesetfiles="${dev.lib}/pmd/pmd-rules.xml" shortFilenames="true">
+			<formatter type="html" toFile="${reports.home}/pmd/pmd_report.html" />
+			<formatter type="xml" toFile="${reports.home}/pmd/pmd.xml" />
+			<fileset dir="${basedir}/src">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${basedir}/generated">
+				<include name="**/*.java" />
+			</fileset>
+		</pmd>
+	</target>
+
+	<target name="validate.xml.documents">
+		<xmlvalidate failonerror="yes" lenient="no" warn="yes">
+			<fileset dir="${contract.folder}" includes="**/**" />
+			<attribute name="http://apache.org/xml/features/nonvalidating/load-dtd-grammar" value="false" />
+			<attribute name="http://apache.org/xml/features/validation/dynamic" value="true" />
+			<attribute name="http://xml.org/sax/features/validation" value="true" />
+			<attribute name="http://apache.org/xml/features/validation/schema" value="true" />
+			<attribute name="http://apache.org/xml/features/validation/schema-full-checking" value="true" />
+			<attribute name="http://apache.org/xml/features/allow-java-encodings" value="true" />
+		</xmlvalidate>
+
+		<!-- http://xerces.apache.org/xerces-j/features.html -->
+		<!--schemavalidate failonerror="yes" lenient="no" warn="yes" disabledtd="true" fullchecking="false">
+            <fileset dir="${contract.folder}" includes="**/**"/>
+        </schemavalidate-->
+	</target>
+
+	<target name="cpd">
+		<taskdef name="cpd" classname="net.sourceforge.pmd.cpd.CPDTask">
+			<classpath refid="project.classpath" />
+		</taskdef>
+		<mkdir dir="${reports.home}/cpd" />
+
+		<cpd minimumTokenCount="20" format="xml" outputFile="${reports.home}/cpd.xml" encoding="UTF-8">
+			<fileset dir="${basedir}/src">
+				<include name="**/*.java" />
+			</fileset>
+			<!-- I don't think that it makes sense to check generated code -->
+			<fileset dir="${basedir}/generated">
+				<include name="**/*.java" />
+			</fileset>
+		</cpd>
+		<xslt in="${reports.home}/cpd.xml" style="${dev.lib}/pmd/cpdhtml.xslt" out="${reports.home}/cpd/cpd.html" />
+		<!--delete file="${reports.home}/cpd/cpd.xml" /-->
+	</target>
+
+	<!-- continuous integration task -->
+	<target name="audit">
+		<antcall target="javadoc" />
+		<antcall target="pmd" />
+		<antcall target="findbugs" />
+	</target>
+
+	<target name="javadoc.with.uml" description="generate javadoc with embedded UML diagrams (http://www.umlgraph.org/).">
+		<javadoc destdir="${basedir}/docs/javadoc" useexternalfile="true" packagenames="${doc.packages}" classpathref="project.classpath" windowtitle="${doc.windowtitle}" doctitle="${doc.doctitle}" author="true" version="true" use="true" splitindex="true" bottom="${doc.bottom}" encoding="UTF-8" source="1.6">
+			<link href="${doc.j2se}" />
+			<link href="${doc.j2ee}" />
+			<tag name="todo" scope="all" description="To do:" />
+			<fileset dir="${basedir}/generated">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${basedir}/src">
+				<include name="**/*.java" />
+			</fileset>
+			<doclet name="org.umlgraph.doclet.UmlGraphDoc" path="${dev.lib}/umlgraph/UmlGraph.jar">
+				<param name="-inferrel" />
+				<param name="-inferdep" />
+				<param name="-useimports" />
+				<param name="-inferdepvis" value="public" />
+				<param name="-hide" value="java.*" />
+				<param name="-collpackages" value="java.util.*" />
+				<param name="-qualify" />
+				<param name="-postfixpackage" />
+				<param name="-nodefontsize" value="9" />
+				<param name="-nodefontpackagesize" value="7" />
+				<param name="-link" value="http://java.sun.com/javase/6/docs/jdk/api/javadoc/doclet/" />
+				<param name="-link" value="${doc.j2se}" />
+				<param name="-link" value="${doc.j2ee}" />
+			</doclet>
+		</javadoc>
+	</target>
+</project>

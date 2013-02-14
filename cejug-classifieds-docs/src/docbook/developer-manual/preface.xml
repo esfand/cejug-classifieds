@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preface id="foreword">
+	<title>Foreword</title>
+	<para>Cejug-Classifieds uses 100% open source software, no paid tools or libraries are required or promoted by our project.</para>
+	<para>Developer manual contains information about accessing the	latest source code for Cejug-Classifieds project and process of
+		modifying, committing and building the project. The commands and other technical tips containned in this
+		manual are based on Linux operatinal system. We strongly
+		suggest you
+		to adopt Linux to setup your development environment.</para>
+</preface>

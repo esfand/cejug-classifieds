@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="chapter-deployment-prod">
+	<title>Production server</title>
+	<section id="deployment-prod-setup">
+		<title>Deployment</title>
+		<section>
+			<title>Server Setup</title>
+			<para>TODO ...
+				</para>
+			<section>
+				<title>Data-Source</title>
+				<para>The data source used in test environment is the default
+				</para>
+			</section>
+			<section>
+				<title>MOM - Message Oriented Middleware</title>
+				<para>
+					http://docs.sun.com/source/817-6087/dgjms.html#wp19689 
+				</para>
+			</section>
+		</section>
+	</section>
+
+
+	<section id="deployment-prod-tunning">
+		<title>Tunning</title>
+		<para>
+			TODO ...
+		</para>
+	</section>
+</chapter>
+

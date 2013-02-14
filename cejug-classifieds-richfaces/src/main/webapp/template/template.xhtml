@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description"
+	content="Cejug-Classifieds is a 100% open-source online classifieds system" />
+<meta name="keywords"
+	content="Java,J2EE,Glassfish,CEJUG,Classifieds,Shop,Books" />
+<link rel="shortcut icon"
+	href="#{facesContext.externalContext.requestContextPath}/images/favicon.ico"
+	type="image/x-icon" />
+<title>Cejug Classifieds</title>
+<link rel='stylesheet' type='text/css'
+	href='#{facesContext.externalContext.requestContextPath}/css/styleNew.css' />
+</head>
+
+<body>
+<f:view>
+	<f:loadBundle basename="messages" var="msg" />
+	<f:loadBundle basename="messages" var="constraints" />
+	<div class='fullscreen'>
+	<div class='topPane'><ui:insert name="pageheader">default page header</ui:insert>
+	</div>
+	<!-- div class='adsense'-->
+	<div><ui:insert name="adsense">
+		<script type="text/javascript"><!--
+google_ad_client = "pub-7692178578516455";
+/* 728x15, created 2/4/09 */
+google_ad_slot = "6475491895";
+google_ad_width = 728;
+google_ad_height = 15;
+//-->
+</script>
+		<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+	</ui:insert></div>
+	<div class='midCenterPane'><ui:insert name="body">Default Body</ui:insert>
+	</div>
+	<div class='footer'><ui:insert name="pagefooter">
+		<p><small>Issues? If you noticed any issue on this
+		application, please <a
+			href='https://cejug-classifieds.dev.java.net/servlets/ProjectIssues'>submit
+		your issues here</a>. Your attention to details is a great contribution to
+		our open-source work.</small></p>
+	</ui:insert></div>
+	</div>
+</f:view>
+</body>
+</html>

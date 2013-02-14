@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services-config>
+
+    <services>
+		 <service id="granite-service"
+		     class="flex.messaging.services.RemotingService"
+		     messageTypes="flex.messaging.messages.RemotingMessage">
+		     <!--
+		      ! Use "ejbFactory" and "my-graniteamf" for "person" destination (see below).
+		      !-->
+		     <destination id="CejugClassifiedsAdminService">
+		         <channels>
+		             <channel ref="my-graniteamf"/>
+		         </channels>
+		         <properties>
+		             <factory>ejbFactory</factory>
+		         </properties>
+		     </destination>
+		     <adapters>
+		         <adapter-definition id="java-object" class="flex.messaging.services.remoting.adapters.JavaAdapter" default="true"/>
+		     </adapters>
+		    <default-channels>
+		        <channel ref="my-graniteamf"/>
+		    </default-channels>
+		 </service> 
+    </services>
+
+    <!-- Declare GraniteDS ejbFactory service factory. -->
+    <factories>
+        <factory id="ejbFactory" class="org.granite.messaging.service.EjbServiceFactory">
+            <properties>
+                <lookup>cejug-classifieds-server/AdminBean/local</lookup>
+            </properties>
+        </factory>
+    </factories>
+    <channels>
+        <!--  GraniteDS channel -->
+        <channel-definition id="my-graniteamf" class="mx.messaging.channels.AMFChannel">
+            <endpoint
+                uri="http://{server.name}:{server.port}/{context.root}/graniteamf/amf"
+                url="http://{server.name}:{server.port}/{context.root}/graniteamf/amf"
+                class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+    </channels>
+</services-config>

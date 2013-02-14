@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookinfo>
+	<title>Cejug Classifieds Project</title>
+	<subtitle>Developers handbook</subtitle>
+	<releaseinfo role="SVN">$Id: developer-manual.xml 1089 2009-01-10 13:43:30Z felipegaucho $
+	</releaseinfo>
+	<authorgroup>
+		<corpauthor>Cejug-Classifieds Team</corpauthor>
+		<author>
+			<firstname>https://cejug-classifieds.dev.java.net
+			</firstname>
+			<!--
+				affiliation> <address>
+				<email>dev@cejug-classifieds.dev.java.net</email> </address>
+				</affiliation
+			-->
+		</author>
+		<!--
+			editor> <firstname>Felipe</firstname> <surname>Gaúcho</surname>
+			</editor
+		-->
+	</authorgroup>
+
+	<legalnotice>
+		<para>
+			<productname class='trade'>Cejug-Classifieds</productname>
+		</para>
+		<para>
+			<ulink url="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL V3</ulink>
+			(C) 2008-2009 Cejug-Classifieds Project.
+		</para>
+		<para>
+			Contact us at
+			<email>dev@cejug-classifieds.dev.java.net
+			</email>
+		</para>
+
+		<!--
+			para> <emphasis> <ulink
+			url="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL V3</ulink> - This
+			library is free software; you can redistribute it and/or modify it
+			under the terms of the <ulink
+			url="http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License">GNU
+			Lesser General Public License</ulink> as published by the <ulink
+			url="http://en.wikipedia.org/wiki/Free_Software_Foundation"> Free
+			Software Foundation</ulink> ; either version 3 of the License, or (at
+			your option) any later version. This library is distributed in the
+			hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+			the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+			PURPOSE. See the <ulink
+			url="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public
+			License for more details.</ulink> You should have received a copy of
+			the GNU Lesser General Public License along with this library; if
+			not, write to the Free Software Foundation, Inc., 59 Temple Place,
+			Suite 330, Boston, MA 02111-1307 USA. </emphasis> </para
+		-->
+	</legalnotice>
+
+	<!--
+		abstract> <para> TODO: brief introduction to the project, welcome and
+		the target audience of this document... </para> </abstract
+	-->
+</bookinfo>

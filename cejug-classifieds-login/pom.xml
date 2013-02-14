@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.java.dev.cejug.classifieds</groupId>
+		<artifactId>cejug-classifieds</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>net.java.dev.cejug.classifieds</groupId>
+	<artifactId>cejug-classifieds-login</artifactId>
+	<packaging>ejb</packaging>
+	<name>login-ejb: middleware and persistence</name>
+	<url>http://cejug-classifieds.dev.java.net</url>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>${ejb-plugin-version}</version>
+				<configuration>
+					<ejbVersion>3.1</ejbVersion>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<generateClient>true</generateClient>
+					<clientIncludes>
+						<!-- this will include all files and directories under com/foo/bar -->
+						<clientInclude>net/java/dev/cejug/classifieds/login/entity/*.class</clientInclude>
+						<clientInclude>net/java/dev/cejug/classifieds/login/entity/facade/client/**</clientInclude>
+					</clientIncludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>${eclipselink-version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

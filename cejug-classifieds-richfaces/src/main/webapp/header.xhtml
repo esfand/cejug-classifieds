@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<ui:composition>
+	<div><h:graphicImage value="/images/templateNew/Header3.png"
+		styleClass="logo" /></div>
+	<a:form id="headerForm">
+	<div id="headerbar">
+		<h:outputText value="Category: "></h:outputText>	
+		<a:region>
+			<!-- h:selectOneMenu id="categories"
+				converter="advertisementCategoryConverter"
+				value="#{helloClassifiedsBean.selectedCategory}">
+				<f:selectItems value="#{categoryBean.categories}" />
+				<a:support event="onchange" reRender="categoryPanel"></a:support>
+			</h:selectOneMenu-->
+		</a:region>
+		<h:outputText value=" | " />
+		<a:commandLink action="publishAdvertisement"
+			value="Publish Advertisement" styleClass="publishLink" />
+	</div>
+	</a:form>
+</ui:composition>
+</html>

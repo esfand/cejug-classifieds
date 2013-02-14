@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % xinclude SYSTEM "../../shared/xinclude.mod">
+%xinclude;
+<!ENTITY % isopub SYSTEM "iso-pub.ent"> 
+<!ENTITY preface SYSTEM "preface.xml"> 
+<!ENTITY bookinfo SYSTEM "book-info.xml">
+<!ENTITY glossary SYSTEM "glossary.xml">
+<!ENTITY business SYSTEM "business.xml">
+<!ENTITY bibliography SYSTEM "bibliography.xml">
+<!ENTITY legalnotice SYSTEM "legalnotice.xml">
+
+<!ENTITY architecture SYSTEM "architecture.xml">
+<!ENTITY legalnotice SYSTEM "../../../shared/legalnotice.xml">
+<!ENTITY chapter-dev-setup SYSTEM "chapter-dev-setup.xml">
+<!ENTITY chapter-deployment-dev SYSTEM "chapter-deployment-dev.xml">
+<!ENTITY chapter-deployment-prod SYSTEM "chapter-deployment-prod.xml">
+<!ENTITY chapter-source-organization SYSTEM "chapter-source-organization.xml">
+<!ENTITY chapter-development-process SYSTEM "chapter-development-process.xml">
+<!ENTITY appendix-about-manual SYSTEM "appendix-about-manual.xml"> 
+<!ENTITY revhistory SYSTEM "revhistory.xml">
+
+%isopub; 
+]>
+<book id="cejug.classifieds.book" lang="en_US">
+	&bookinfo;
+	<part id="part.overview">
+		<title>Project Overview</title>
+		&business;
+		&architecture;
+	</part>
+
+	<part id="setup">
+		<title>Developers handbook</title>
+    &chapter-dev-setup;
+    &chapter-source-organization;
+	</part>
+
+	<part id="installing">
+		<title>Deployment</title>
+    &chapter-deployment-dev;
+    &chapter-deployment-prod;
+	</part>
+
+	<part id="appendixes">
+		<title>Appendixes</title>
+    &appendix-about-manual;
+	&glossary;
+	&bibliography;
+	</part>
+</book>

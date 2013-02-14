@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="chapter-deployment-dev">
+	<title>Test Server</title>
+	<section id="deployment-dev-setup">
+		<title>Server Setup</title>
+		<para>In order to reduce the configuration effort, the test
+			environment reuses the default Glassfish infra-structure, like
+			described in the steps below.
+				</para>
+	</section>
+	<section>
+		<title>Data-Source</title>
+		<para>The data source used in test environment is the default
+		</para>
+	</section>
+	<section>
+		<title>JMS configuration</title>
+		<para>
+			The queues used in the middleware are configured through
+			the
+			Glassfish
+			admin console, as described in
+			<ulink url="http://docs.sun.com/app/docs/doc/820-4336/beaob?a=view">Chapter 18 Using the Java Message Service
+			</ulink>
+			of the Glassfish manual.
+		</para>
+		<para>
+			The queues used in the Cejug-Classifieds system are listed in the
+			below table:
+
+			<table frame='all'>
+				<title>JMS resources of Cejug-Classifieds</title>
+				<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+					<colspec colname='type' />
+					<colspec colname='jndi' />
+					<colspec colname='params' />
+					<thead>
+						<row>
+							<entry namest="type" align="center">Resource type
+							</entry>
+							<entry namest="jndi">JNDI Name</entry>
+							<entry namest="params">Configuration parameters</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Resources / JMS Resources / Connection factories
+							</entry>
+							<entry>NotificationQueueConnectionFactory
+							</entry>
+							<entry>todo</entry>
+						</row>
+						<row>
+							<entry>Resources / JMS Resources / Connection factories
+							</entry>
+							<entry>RegistrationQueueConnectionFactory
+							</entry>
+							<entry>todo</entry>
+						</row>
+						<row>
+							<entry>Resources / JMS Resources / Destination resources
+							</entry>
+							<entry>RegistrationQueue</entry>
+							<entry>todo</entry>
+						</row>
+						<row>
+							<entry>Resources / JMS Resources / Destination resources
+							</entry>
+							<entry>NotificationQueue</entry>
+							<entry>todo</entry>
+						</row>
+						<row>
+							<entry>Resources / JavaMail Sessions</entry>
+							<entry>mail/classifieds</entry>
+							<entry>todo</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</para>
+	</section>
+</chapter>
+

@@ -1,0 +1,429 @@
+/* 
+Document   : style.css
+Created on : Oct 7, 2008, 10:47:54 AM
+Author     : fgaucho
+Description:
+Purpose of the stylesheet follows.
+*/ /* 
+TODO customize this sample style
+Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+.featureBorder {
+	border: solid;
+	border-width: 1px;
+	border-color: silver;
+}
+
+.advPane {
+	float: none;
+	width: 100%;
+}
+
+.fullscreen {
+border:none;
+}
+.old {
+	float: none;
+	height: 100%;
+	font-family: monaco, sans-serif, palatino Linotype, Tahoma, Verdana,
+		Cortoba, Tahoma, Helvetica, Arial;
+	font-size: 13px;
+	background: black;
+}
+
+body {
+	/* background:	#00FF00 url(http://static.panoramio.com/photos/original/561360.jpg) no-repeat fixed top */
+	padding: 2px;
+	width: 99%;
+	height: 100%;
+}
+
+body,td,input,textarea,select {
+	font-family: arial, sans-serif;
+}
+
+input,textarea,select {
+	font-size: 100%;
+}
+
+#loading {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background-color: #fff
+}
+
+.topPane {
+	opacity: .85;
+	filter: alpha(opacity = 85);
+	background: white;
+	width: 100%;
+	height: 100%;
+	margin-bottom:6px;
+	display: block;
+	border: solid;
+	border-width: 1px;
+	border-color: silver;
+	float: left;
+}
+
+.topLeftPane {
+	height: auto;
+	float: left;
+	width: auto;
+	display: block;
+}
+
+.topRightPane {
+	height: auto;
+	float: right;
+	width: auto;
+	display: block;
+}
+
+.topCenterPane {
+	height: 100px;
+	text-align: justify;
+	float: left;
+	vertical-align: top;
+	font-variant: small-caps;
+}
+
+.topCenterPane p {
+	font-family: inherit;
+	font-style: italic;
+	color: silver;
+}
+
+.topLeftPane:after {
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+.topCenterPane:after {
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+.topRightPane:after {
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+img {
+	float: left;
+}
+
+.generalPadding {
+	padding: 6px;
+}
+
+.midCenterPane {
+	float: left;
+	width: 100%;
+	height: 100%;
+	border: 1px;
+	border-style: solid;
+}
+
+.logo {
+	opacity: 1;
+	filter: alpha(opacity = 95);
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.leftPane {
+	float: inherit;
+	min-width: 10%;
+	max-width: 15%;
+	height: 100%;
+	padding: 1px 1px 1px 1px;
+}
+
+.fontHeader {
+	font-size: 200%;
+	font-weight: bolder;
+	font-family: monaco, cursive;
+	text-align: center;
+}
+
+.loginPane {
+	height: 100%;
+	background: #FDD017;
+	min-width: 150px;
+}
+
+.loginrow {
+	width: 100%;
+	margin: 2px;
+}
+
+.loginlabel {
+	float: left;
+	width: auto;
+	height: auto;
+	margin-right: 3px;
+	text-align: right;
+}
+
+.loginlabel a {
+	text-decoration: none;
+	text-align: right;
+}
+
+.loginfield {
+	float: right;
+	width: auto;
+	height: auto;
+	margin-top: 1px;
+	text-align: right;
+}
+
+.help {
+	float: left;
+	text-decoration: none;
+}
+
+.submit {
+	vertical-align: top;
+	float: right;
+	height: auto;
+	margin-top: 1px;
+}
+
+.categories {
+	
+}
+
+.categories.item {
+	
+}
+
+.title {
+	font-family: serif;
+	font-variant: small-caps;
+}
+
+.searchpane {
+	float: left;
+	width: 100%;
+	height: 5%;
+	padding-top: 5px;
+}
+
+.searchfield {
+	float: inherit;
+	width: 30%;
+}
+
+.thinborder {
+	border: silver;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.spacerright {
+	margin-right: 6px;
+}
+
+.searchcombo {
+	float: inherit;
+	background: inherit;
+}
+
+.searchsubmit {
+	float: inherit;
+}
+
+.offers {
+	float: left;
+}
+
+.simple {
+	float: left;
+	width: 30%;
+	max-height: 5%;
+	color: blue;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	padding-right: 6px;
+	text-align: justify;
+	margin-top: 5px;
+}
+
+.simple a {
+	float: left;
+	color: blue;
+	text-decoration: none;
+	max-width: 60%;
+}
+
+.simple label {
+	color: black;
+	float: left;
+	width: 100%;
+}
+
+.ad.oneColumn {
+	float: left;
+	min-width: 15%;
+	max-width: 30%;
+}
+
+.ad.twoColumn {
+	float: inherit;
+	min-width: 30%;
+	max-width: 60%;
+}
+
+.ad.oneRow {
+	width: 10%;
+}
+
+.ad.twoRow {
+	max-width: 20%;
+}
+
+.contact {
+	vertical-align: middle;
+}
+
+.adtitle {
+	width: 100%;
+	float: left;
+}
+
+.adtitle a {
+	max-width: 70%;
+}
+
+.adtitle label {
+	float: right;
+	text-align: right;
+	background-image: url('img/phone.png');
+	background-position: left;
+	background-repeat: no-repeat;
+	text-indent: 25px;
+	max-width: 25%;
+	vertical-align: middle;
+}
+
+.clear {
+	clear: both;
+}
+
+.topCenterPane h1,.ombre,.ombre2 {
+	/* first place the container H1 to correctly place the SPAN later */
+	top: +2px; /* title is offcentered */
+	color: black;
+	position: relative;
+	min-width: 350px;
+	font: bold 200%;
+	padding-top: 0px;
+	text-align: left;
+	font-size: 500%;
+	font-weight: bolder;
+	font-variant: small-caps;
+}
+
+/* uncomment this for the dark side :) */
+.rich-panel {
+	opacity: .95;
+	filter: alpha(opacity = 95);
+        border:none;
+        vertical-align:top;
+}
+/*
+.rich-panel-body {
+	background: black;
+	color: white;
+	border: solid;
+	border-width: 1px;
+	border-color: #FDD017;
+	height: 100%;
+}
+
+.dr-table-cell {
+	background: black;
+	vertical-align: top;
+}
+
+.rich-table-row {
+	width: 100%;
+}
+
+.rich-tabpanel-content {
+	background: transparent;
+	color: #FDD017;
+	font: bolder;
+}
+
+.rich-tab-active {
+	background: #FDD017;
+	border: solid;
+	border-width: 1px;
+	border-color: silver;
+}
+
+.rich-toolbar {
+	background: transparent;
+}
+
+.rich-toolbar-item {
+	background: transparent;
+}
+
+.dr-toolbar-int {
+	background: transparent;
+}
+
+.rich-table-footercell {
+	background: transparent;
+}
+
+.rich-dtascroller-table {
+	background: transparent;
+	border: solid;
+	border-width: 1px;
+	border-color: #FDD017;
+}
+
+.rich-datascr-button {
+	background: transparent;
+	color: #FDD017;
+}
+
+.dr-table-footercell {
+	background: black;
+}
+
+.rich-datascr {
+	background: transparent;
+}
+
+
+td {
+	background: transparent;
+}
+
+select {
+	background: black;
+	border: solid;
+	border-width: 1px;
+	border-color: #FDD017;
+	font-family: monaco, sans-serif, palatino Linotype, Tahoma, Verdana,
+		Cortoba, Tahoma, Helvetica, Arial;
+	color: white;
+	font-weight: bolder;
+}
+*/

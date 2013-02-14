@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://cejug-classifieds.dev.java.net/server/i18n"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.0">
+
+	<xsd:simpleType name="ClassifiedsServiceDelegate.i18n">
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value="service.delegate.loaded" />
+			<xsd:enumeration value="service.delegate.failed" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ClassifiedsServiceLocator.i18n">
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value="locator.service.custom" />
+			<xsd:enumeration value="locator.service.default" />
+			<xsd:enumeration value="locator.service.error" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ConfigUnmarshallerListener.i18n">
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value="validator.class.not.found" />
+			<xsd:enumeration value="validator.instantiation.error" />
+			<xsd:enumeration value="validator.illegal.access" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="TimeKeeperSoapHandler.i18n">
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value="queue.length.error" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="TimestampQueueWorker.i18n">
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value="duplicate.key.error" />
+			<xsd:enumeration value="db.update.error" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

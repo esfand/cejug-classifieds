@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+	targetNamespace="http://cejug-classifieds.dev.java.net/metadata/business"
+	xmlns:business="http://cejug-classifieds.dev.java.net/metadata/business"
+	xmlns:attachments="http://cejug-classifieds.dev.java.net/metadata/attachments"
+	xmlns:mime="http://www.w3.org/2005/05/xmlmim" xmlns:common="http://cejug-classifieds.dev.java.net/metadata/common"
+	elementFormDefault="qualified" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.1">
+	<xsd:import namespace="http://cejug-classifieds.dev.java.net/metadata/common"
+		schemaLocation="common.xsd" />
+	<xsd:import
+		namespace="http://cejug-classifieds.dev.java.net/metadata/attachments"
+		schemaLocation="attachments.xsd" />
+	<xsd:annotation>
+		<xsd:documentation>
+			The Business Meta-data of CEJUG-Classifieds.
+		</xsd:documentation>
+		<xsd:appinfo>
+			<jaxb:globalBindings>
+				<xjc:serializable uid="-6026937020915831338" />
+                <jaxb:javaType name="java.util.Calendar"
+			xmlType="xsd:dateTime" parseMethod="javax.xml.bind.DatatypeConverter.parseDate"
+			printMethod="javax.xml.bind.DatatypeConverter.printDate" />
+			</jaxb:globalBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+	<xsd:complexType name="AbstractAdvertisement" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="common:AbstractMessageElement">
+				<xsd:sequence>
+					<xsd:element name="headline" type="xsd:string" />
+					<xsd:element name="keywords" type="xsd:string" />
+					<xsd:element name="locale" type="common:localeType" />
+					<xsd:element ref="attachments:AvatarImageOrUrl" />
+					<xsd:element name="Uri" type="attachments:ResourceLink" />
+					<xsd:element ref="attachments:AttachmentOrUrl" minOccurs="0"
+						maxOccurs="unbounded" />	
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Section">
+		<xsd:sequence>
+			<xsd:element name="names" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Advertisement">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="business:AbstractAdvertisement">
+					<xsd:sequence>
+						<xsd:element ref="common:Customer" />
+						<xsd:element name="summary" type="xsd:string" />
+						<xsd:element name="text" type="xsd:string" />
+						<xsd:element name="status" type="xsd:int" />
+						<xsd:element name="publishing.period" type="business:Period" />
+						<xsd:element name="attachment.id" type="xsd:long"
+							minOccurs="0" maxOccurs="unbounded" />
+						<xsd:element name="category.id" type="xsd:long" />
+						<xsd:element name="type.id" type="xsd:long" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PublishingHeader">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="customer.login" type="xsd:NMTOKEN" />
+				<xsd:element name="customer.domain.id" type="xsd:long" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AdvertisementCollection">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+				<xsd:element ref="business:Advertisement" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AdvertisementCollectionFilter">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="category" type="xsd:NMTOKEN" />
+				<xsd:element name="maximum.number.of.records" type="xsd:int"
+					default="30" />
+				<xsd:element name="period" type="business:Period"
+					nillable="true" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="Period">
+		<xsd:sequence>
+			<xsd:element name="start" type="xsd:dateTime" />
+			<xsd:element name="finish" type="xsd:dateTime" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="AtomFilter" type="business:SyndicationFilter" />
+	<xsd:element name="RssFilter" type="business:SyndicationFilter" />
+	<xsd:complexType name="SyndicationFilter">
+		<xsd:sequence>
+			<xsd:element name="upper.bound" type="xsd:int" nillable="true" />
+			<xsd:element name="date.initial" type="xsd:dateTime" />
+			<xsd:element name="date.final" type="xsd:dateTime" />
+			<xsd:element name="category.id" type="xsd:long" />
+			<xsd:element name="keywords" type="xsd:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="SpamReport">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:element name="advertisement.id" type="xsd:int" />
+				<xsd:element name="reason" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

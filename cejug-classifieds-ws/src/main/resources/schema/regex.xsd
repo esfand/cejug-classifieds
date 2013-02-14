@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Inspirational source: http://regexlib.com/Default.aspx -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://cejug-classifieds.dev.java.net/regex"
+	xmlns="https://cejug-classifieds.dev.java.net/regex"
+	elementFormDefault="qualified">
+	<xsd:simpleType name="email">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="smtp.host">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="(smtp)\.([\w\-]+)\.[\w\-]{2,3}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="non.empty">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value=".+" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

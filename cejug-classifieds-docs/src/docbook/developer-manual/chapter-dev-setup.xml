@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="chapter-dev-setup">
+	<title>Development environment</title>
+	<section id="requirements">
+		<title>Configuration</title>
+		<section>
+			<title>Required software</title>
+			<para>Download and install the software of the below list
+				according the instructions to your operational system.</para>
+			<orderedlist numeration="lowerroman">
+				<listitem>
+					<para>
+						<ulink url="http://java.sun.com/javase/downloads/?intcmp=1281">JDK 6 (or higher)</ulink>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<ulink url="https://glassfish.dev.java.net/">Glassfish V2</ulink>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<ulink url="http://maven.apache.org/">Maven 2</ulink>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<ulink
+							url="http://labs.adobe.com/technologies/flex/flexbuilder_linux/">Flex Builder</ulink>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<ulink url="http://www.graphviz.org/">Graphviz</ulink>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<ulink url="http://velocity.apache.org/docbook/">Velocity Docbook Framework</ulink>
+					</para>
+				</listitem>
+			</orderedlist>
+			<note>
+				<title>IDE tips</title>
+				<para>
+					The project build process is based on Maven 2, but you can
+					adopt an
+					IDE to facilitate your work. If you adopt
+					<ulink url="http://www.eclipse.org/">Eclipse</ulink>
+					, for
+					example, you can also install its Maven plugin, that will
+					provide
+					you
+					a more safe development environment. For
+					<ulink url="http://www.netbeans.org/">Netbeans</ulink>
+					or
+					<ulink url="http://www.jetbrains.com/idea/">Idea</ulink>
+					users,
+					maven is integrated by default.
+				</para>
+			</note>
+		</section>
+		<section id="environment.vars">
+			<title>Environment variables</title>
+			<para>
+				An important detail on your environment setup is about the
+				environment variables. Below you find an example of environment
+				variables configuration.
+				<programlisting>
+<![CDATA[export AS_HOME=/home/$USER/dev/glassfish
+export JAVAEE_HOME=$AS_HOME
+export DERBY_HOME=$AS_HOME/javadb
+export PATH=$PATH:$AS_HOME/bin:$DERBY_HOME/bin:$JAVA_HOME/bin:$JRUBY_HOME/bin:$GRAILS_HOME/bin
+export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.10
+export FLEX_HOME=/home/$USER/dev/flex/sdks/3.0.0
+export DBF_HOME=/home/$USER/dev/DocBook-Framework-1.0
+export CLASSPATH=.:$JAVA_HOME/jre/lib]]>
+				</programlisting>
+			</para>
+		</section>
+		<section>
+			<title>Testing the configuration</title>
+			<para>todo...</para>
+		</section>
+	</section>
+
+
+	<section id="ubuntu">
+		<title>Shell scripts for Linux users</title>
+		<para>
+			The project configuration requires some repetitive tasks like
+			to
+			startup the Java EE container and to startup the database on every
+			development session. In order to reduce the time consuming of these
+			repetitive tasks, you can automatize them through
+			<ulink url="http://www.freeos.com/guides/lsst/">Shell Scripts</ulink>
+			. In this section you find a set of scripts to run in your Linux
+			based operational system. These scripts were tested on
+			<ulink url="http://www.ubuntu.com/">Ubuntu</ulink>
+			and it should work on every Linux distribution compatible with
+			Ubuntu
+			8.10 or higher.
+		</para>
+
+		<programlisting>
+			<!--
+				xi:include
+				href="https://cejug-classifieds.dev.java.net/files/documents/8128/122758/glassfish"
+				parse="text" /
+			-->
+<![CDATA[
+#! /bin/sh
+# chkconfig: 2345 99 01
+# description: GlassFish is a Java Application Server.
+
+# Basic support for the Linux Standard Base Specification 1.0.0 (to be used by
+# insserv for example)
+### BEGIN INIT INFO
+# Provides: Glassfish
+# Required-Start:
+# Required-Stop: 
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Description: Manages the services needed to run Glassfish
+### END INIT INFO
+
+
+USER=fgaucho
+GLASSFISH_HOME=/home/fgaucho/dev/glassfish
+
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
+export AS_HOME=/home/$USER/dev/glassfish
+export JAVAEE_HOME=$AS_HOME
+export DERBY_HOME=$AS_HOME/javadb
+export PATH=$PATH:$AS_HOME/bin:$DERBY_HOME/bin:$JAVA_HOME/bin
+export FLEX_HOME=/home/$USER/dev/flex/sdks/3.0.0
+export DBF_HOME=/home/$USER/dev/DocBook-Framework-1.0
+
+glassfish_stop() {
+  su $USER -c "$GLASSFISH_HOME/bin/asadmin stop-domain domain1"
+}
+
+glassfish_start() {
+  su $USER -c "$GLASSFISH_HOME/bin/asadmin start-domain domain1"
+}
+
+db_start() {
+  su $USER -c "$GLASSFISH_HOME/bin/asadmin start-database"
+}
+
+db_stop() {
+  su $USER -c "$GLASSFISH_HOME/bin/asadmin stop-database"
+}
+
+case "$1" in
+  start)
+    db_start
+    glassfish_start
+    ;;
+  stop)
+    glassfish_stop
+    db_stop
+    ;;
+  restart)
+    glassfish_stop
+    glassfish_start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+]]>
+		</programlisting>
+		<para>
+			Use these commands to install it:
+			<programlisting>
+<![CDATA[
+sudo cp glassfish /etc/init.d/
+sudo chown root:root /etc/init.d/glassfish
+sudo chmod 755 /etc/init.d/glassfish
+sudo update-rc.d glassfish defaults 99
+]]></programlisting>
+			After that, you don't need to be logged in in order to have it
+			running.
+			But remember, booting will take longer from now on. But it's
+			in the
+			background, you can log in while it's starting up.
+		</para>
+	</section>
+</chapter>
+

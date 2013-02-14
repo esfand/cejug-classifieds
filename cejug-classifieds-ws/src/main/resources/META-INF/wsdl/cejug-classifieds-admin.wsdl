@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="cejug-classifieds-admin"
+	targetNamespace="http://cejug-classifieds.dev.java.net/admin"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:admin="http://cejug-classifieds.dev.java.net/admin"
+	xmlns:metadata="http://cejug-classifieds.dev.java.net/metadata/admin"
+	xmlns:common-wsdl="http://cejug-classifieds.dev.java.net/common">
+	<wsdl:import namespace="http://cejug-classifieds.dev.java.net/common"
+		location="common.wsdl" />
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="http://cejug-classifieds.dev.java.net/metadata/admin"
+				schemaLocation="admin.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- MESSAGES -->
+	<!-- MONITOR -->
+	<wsdl:message name="CheckMonitor">
+		<wsdl:part element="metadata:MonitorQuery" name="monitor" />
+	</wsdl:message>
+	<wsdl:message name="CheckMonitorResponse">
+		<wsdl:part element="metadata:MonitorResponse" name="service.status" />
+	</wsdl:message>
+
+	<!-- ADD QUOTA -->
+	<wsdl:message name="AddQuota">
+		<wsdl:part element="metadata:AddQuotaInfo" name="add.quota.request" />
+	</wsdl:message>
+
+	<!-- CANCEL QUOTA -->
+	<wsdl:message name="CancelQuota">
+		<wsdl:part element="metadata:CancelQuotaInfo" name="cancel.quota.request" />
+	</wsdl:message>
+
+	<!-- ADVERTISEMENT TYPE CRUD MESSAGES -->
+	<wsdl:message name="CreateAdvertisementTypeMsg">
+		<wsdl:part element="metadata:CreateAdvertisementTypeParam"
+			name="new.adv.type" />
+	</wsdl:message>
+	<wsdl:message name="UpdateAdvertisementTypeMsg">
+		<wsdl:part element="metadata:UpdateAdvertisementTypeParam"
+			name="partial.adv.type" />
+	</wsdl:message>
+	<wsdl:message name="DeleteAdvertisementTypeMsg">
+		<wsdl:part element="metadata:DeleteAdvertisementTypeParam"
+			name="obsolete.adv.type" />
+	</wsdl:message>
+
+	<!-- ADVERTISEMENT CRUD MESSAGES -->
+	<wsdl:message name="AdvertisementStatus">
+		<wsdl:part element="metadata:AdvertisementRef" name="advertisement" />
+	</wsdl:message>
+	<wsdl:message name="AdvertisementReferenceBundle">
+		<wsdl:part element="metadata:AdvertisementRefBundle" name="bundle" />
+	</wsdl:message>
+
+	<wsdl:message name="ReadAdvertisementList">
+		<wsdl:part element="metadata:ReadAdvertisementReferencesParam" name="category.id" />
+	</wsdl:message>
+
+	<!-- DOMAIN CRUD MESSAGES -->
+	<wsdl:message name="CreateDomainMsg">
+		<wsdl:part element="metadata:CreateDomainParam" name="new.domain" />
+	</wsdl:message>
+	<wsdl:message name="UpdateDomainMsg">
+		<wsdl:part element="metadata:UpdateDomainParam" name="partial.domain" />
+	</wsdl:message>
+	<wsdl:message name="DeleteDomainMsg">
+		<wsdl:part element="metadata:DeleteDomainParam" name="obsolete.domain" />
+	</wsdl:message>
+
+	<!-- CATEGORY CRUD MESSAGES -->
+	<wsdl:message name="CreateCategoryMsg">
+		<wsdl:part element="metadata:CreateCategoryParam" name="new.category" />
+	</wsdl:message>
+	<wsdl:message name="UpdateCategoryMsg">
+		<wsdl:part element="metadata:UpdateCategoryParam" name="partial.category" />
+	</wsdl:message>
+	<wsdl:message name="DeleteCategoryMsg">
+		<wsdl:part element="metadata:DeleteCategoryParam" name="obsolete.category" />
+	</wsdl:message>
+	<!--                                                    -->
+	<!-- ============ PORT (service interface) ============ -->
+	<!--                                                    -->
+	<wsdl:portType name="CejugClassifiedsAdmin">
+		<wsdl:operation name="CheckMonitorOperation">
+			<wsdl:documentation>
+				This operation returns the status of the
+				services, a
+				lightweight monitor used to provide the administrator a
+				quick checking of the services through the web. If the
+				indicators
+				suggests something wrong, a more precise
+				evaluation can be done
+				through the Glassfish Admin
+				Console or other service profiling tool.
+			</wsdl:documentation>
+			<wsdl:input message="admin:CheckMonitor" />
+			<wsdl:output message="admin:CheckMonitorResponse" />
+			<wsdl:fault name="CheckMonitorException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadAdvertisementReferencesOperation">
+			<wsdl:documentation>
+				TODO: Add quota documentation
+			</wsdl:documentation>
+			<wsdl:input message="admin:ReadAdvertisementList" />
+			<wsdl:output name="ReadAdvertisementBundleResponse"
+				message="admin:AdvertisementReferenceBundle" />
+			<wsdl:fault name="ReadAdvertisementBundleException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAdvertisementStatusOperation">
+			<wsdl:documentation>
+				TODO: Add quota documentation
+			</wsdl:documentation>
+			<wsdl:input message="admin:AdvertisementReferenceBundle" />
+			<wsdl:output name="UpdateAdvertisementStatusResponse"
+				message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="UpdateAdvertisementStatusException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="AddQuotaOperation">
+			<wsdl:documentation>
+				TODO: Add quota documentation
+			</wsdl:documentation>
+			<wsdl:input message="admin:AddQuota" />
+			<wsdl:output name="AddQuotaResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="AddQuotaException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="CancelQuotaOperation">
+			<wsdl:documentation>
+				TODO: Cancel quota documentation
+			</wsdl:documentation>
+			<wsdl:input message="admin:CancelQuota" />
+			<wsdl:output message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="CancelQuotaException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+
+		<!-- CATEGORY CRUD -->
+		<wsdl:operation name="CreateCategoryOperation">
+			<wsdl:documentation>
+				CRUD - Creates a new category. Only
+				administrators can
+				create categories. If the category already exists,
+				it
+				throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="admin:CreateCategoryMsg" />
+			<wsdl:output name="CreateCategoryResponse" message="common-wsdl:Category" />
+			<wsdl:fault name="CreateCagegoriesException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadCategoryBundleOperation">
+			<wsdl:input name="ReadCategoryBundle" message="common-wsdl:ReadCategoryBundle" />
+			<wsdl:output message="common-wsdl:CategoryBundle" />
+			<wsdl:fault name="ReadCategoryBundleException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateCategoryOperation">
+			<wsdl:documentation>
+				CRUD - Updates a category (merge new attributes
+				data in
+				the database). If the category doesn't exists it throws
+				an
+				exception, otherwise it return an HTTP Created status
+				(201).
+			</wsdl:documentation>
+			<wsdl:input message="admin:UpdateCategoryMsg" />
+			<wsdl:output name="UpdateCategoryResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="UpdateCagegoriesException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteCategoryOperation">
+			<wsdl:documentation>
+				CRUD - Deletes the category by its ID. If the
+				category
+				doesn't exist in the database, it throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="admin:DeleteCategoryMsg" />
+			<wsdl:output name="DeleteCategoryResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="DeleteCagegoriesException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+
+		<!-- ADVERTISEMENT TYPE CRUD -->
+		<wsdl:operation name="CreateAdvertisementTypeOperation">
+			<wsdl:documentation>
+				CRUD - creates a new advertisement in the
+				database. In
+				order to create an advertisement a customer should be
+				registered in a Domain, and also should have a quota
+				that allow him
+				to publish the advertisement. The quotas
+				are managed by the Domain,
+				that can resell quotas bought
+				from the classifieds owner - the system
+				admin or his
+				representatives.
+			</wsdl:documentation>
+			<wsdl:input message="admin:CreateAdvertisementTypeMsg" />
+			<wsdl:output name="CreateAdvertisementTypeResponse"
+				message="common-wsdl:AdvertisementType" />
+			<wsdl:fault name="CreateAdvertisementTypeException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadAdvertisementTypeBundleOperation">
+			<wsdl:documentation>
+				Returns a collection of advertisement types, used
+				to
+				enumerate the available types to end customers. Each
+				type has an ID
+				also used by the Domains to proceed CRUD
+				operation about
+				advertisements. There is a mapping (n:n)
+				between Domains and
+				Advertisement Types - not all types
+				registered in the database are
+				avaialble to all domains.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:ReadAdvertisementTypeBundle" />
+			<wsdl:output message="common-wsdl:AdvertisementTypeBundle" />
+			<wsdl:fault name="ReadAllAdvertisementTypesException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAdvertisementTypeOperation">
+			<wsdl:documentation>
+				CRUD - Updates an advertisement (merge new
+				attributes
+				data in the database). If the advertisement doesn't
+				exists
+				it throws an exception, otherwise it return an
+				HTTP Created status
+				(201).
+			</wsdl:documentation>
+			<wsdl:input message="admin:UpdateAdvertisementTypeMsg" />
+			<wsdl:output name="UpdateAdvertisementTypeResponse"
+				message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="UpdateAdvertisementTypeException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteAdvertisementTypeOperation">
+			<wsdl:documentation>
+				CRUD - Deletes an advertisement by its ID. If the
+				advertisement record doesn't exist in the database, it
+				throws an
+				exception.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:PrimaryKey" />
+			<wsdl:output name="DeleteAdvertisementTypeResponse"
+				message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="DeleteAdvertisementTypeException"
+				message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+
+		<!-- DOMAIN CRUD -->
+		<wsdl:operation name="CreateDomainOperation">
+			<wsdl:documentation>
+				CRUD - Creates a new domain. Only administrators
+				can
+				create domains. If the domain already exists, it throws
+				an
+				exception.
+			</wsdl:documentation>
+			<wsdl:input message="admin:CreateDomainMsg" />
+			<wsdl:output name="CreateDomainResponse" message="common-wsdl:Domain" />
+			<wsdl:fault name="CreateDomainException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadDomainBundleOperation">
+			<wsdl:documentation>
+				Returns a collection of Domain elements, used to
+				enumerate the available domains to the administrator of
+				the
+				classifieds system. Each domain has an ID also used
+				by the
+				administrator to proceed CRUD operation on the
+				available domains.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:ReadDomainBundle" />
+			<wsdl:output message="common-wsdl:DomainBundle" />
+			<wsdl:fault name="ReadDomainBundleException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateDomainOperation">
+			<wsdl:documentation>
+				CRUD - Updates a Domain (merge new attributes
+				data in
+				the database). If the Domain doesn't exists it throws an
+				exception, otherwise it return an HTTP Created status
+				(201).
+			</wsdl:documentation>
+			<wsdl:input message="admin:UpdateDomainMsg" />
+			<wsdl:output name="UpdateDomainResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="UpdateDomainException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteDomainOperation">
+			<wsdl:documentation>
+				CRUD - Deletes a Domain by its ID. If the domain
+				record
+				doesn't exist in the database, it throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="admin:DeleteDomainMsg" />
+			<wsdl:output name="DeleteDomainResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="DeleteDomainException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+
+		<!-- CUSTOMER CRUD -->
+		<wsdl:operation name="CreateCustomerOperation">
+			<wsdl:documentation>
+				CRUD - Creates a new customer. Only
+				administrators can
+				create categories. If the customer already exists,
+				it
+				throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:CreateCustomerMsg" />
+			<wsdl:output name="CreateCustomerResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="CreateCustomerException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="ReadCustomerBundleOperation">
+			<wsdl:documentation>
+				CRUD - Read all active categories from the
+				database.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:ReadCustomerBundleMsg" />
+			<wsdl:output message="common-wsdl:CustomerBundle" />
+			<wsdl:fault name="ReadCustomerBundleException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="UpdateCustomerOperation">
+			<wsdl:documentation>
+				CRUD - Updates a customer (merge new attributes
+				data in
+				the database). If the customer doesn't exists it throws
+				an
+				exception, otherwise it return an HTTP Created status
+				(201).
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:UpdateCustomerMsg" />
+			<wsdl:output name="UpdateCustomerResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="UpdateCustomerException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteCustomerOperation">
+			<wsdl:documentation>
+				CRUD - Deletes the customer by its ID. If the
+				customer
+				doesn't exist in the database, it throws an exception.
+			</wsdl:documentation>
+			<wsdl:input message="common-wsdl:DeleteCustomerMsg" />
+			<wsdl:output name="DeleteCustomerResponse" message="common-wsdl:OperationExecutionStatus" />
+			<wsdl:fault name="DeleteCustomerException" message="common-wsdl:ClassifiedsFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<!-- ============ BINDING ============ -->
+	<wsdl:binding name="CejugClassifiedsAdminBinding" type="admin:CejugClassifiedsAdmin">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<!-- ADVERTISEMENT TYPE -->
+		<wsdl:operation name="ReadAdvertisementReferencesOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/ReadAdvertisementReferences" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAdvertisementStatusOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/UpdateAdvertisementStatus" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateAdvertisementTypeOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/CreateAdvertisementType" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadAdvertisementTypeBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/ReadAdvertisementTypes" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateAdvertisementTypeOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/UpdateAdvertisementType" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteAdvertisementTypeOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/DeleteAdvertisementType" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- DOMAIN -->
+		<wsdl:operation name="CreateDomainOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/CreateDomain" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadDomainBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/ReadDomainBundle" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateDomainOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/UpdateDomain" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteDomainOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/DeleteDomain" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- CATEGORY -->
+		<wsdl:operation name="CreateCategoryOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/CreateCategory" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadCategoryBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/LoadCategory" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateCategoryOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/UpdateCategory" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteCategoryOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/DeleteCategory" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- CUSTOMER -->
+		<wsdl:operation name="CreateCustomerOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/CreateCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ReadCustomerBundleOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/LoadCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateCustomerOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/UpdateCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteCustomerOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/DeleteCustomer" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- ADVERTISEMENT TYPE -->
+		<wsdl:operation name="CheckMonitorOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/CheckMonitor" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddQuotaOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/AddQuota" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CancelQuotaOperation">
+			<soap:operation
+				soapAction="http://cejug-classifieds.dev.java.net/admin/CancelQuota" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CejugClassifiedsServiceAdmin">
+		<wsdl:documentation>
+			<Version>$Rev: 1148 $</Version>
+		</wsdl:documentation>
+		<wsdl:port name="CejugClassifiedsAdmin" binding="admin:CejugClassifiedsAdminBinding">
+			<soap:address location="http://fgaucho.dyndns.org:8080/CejugClassifiedsServiceAdmin/AdminEndpointDecorator" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

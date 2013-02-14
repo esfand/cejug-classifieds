@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>cejug-classifieds</artifactId>
+		<groupId>net.java.dev.cejug.classifieds</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>	<artifactId>cejug-classifieds-ear</artifactId>
+	<name>cejug-classifieds-ear: deployment package</name>
+	<packaging>ear</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>net.java.dev.cejug.classifieds</groupId>
+			<artifactId>cejug-classifieds-login</artifactId>
+			<type>ejb</type>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.cejug.classifieds</groupId>
+			<artifactId>cejug-classifieds-login-rest</artifactId>
+			<type>war</type>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- dependency>
+			<groupId>net.java.dev.cejug.classifieds</groupId>
+			<artifactId>cejug-classifieds-richfaces</artifactId>
+			<type>war</type>
+			<version>${project.version}</version>
+		</dependency-->
+		<dependency>
+			<groupId>net.java.dev.cejug.classifieds</groupId>
+			<artifactId>cejug-classifieds-ws</artifactId>
+			<type>ejb</type>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.cejug.classifieds</groupId>
+			<artifactId>cejug-classifieds-ws</artifactId>
+			<version>${project.version}</version>
+			<type>ejb-client</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>${maven-ear-plugin-version}</version>
+				<configuration>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<modules>
+						<webModule>
+							<groupId>net.java.dev.cejug.classifieds</groupId>
+							<artifactId>cejug-classifieds-login-rest</artifactId>
+						</webModule>
+						<!-- webModule>
+							<groupId>net.java.dev.cejug.classifieds</groupId>
+							<artifactId>cejug-classifieds-richfaces</artifactId>
+						</webModule-->
+						<ejbModule>
+							<groupId>net.java.dev.cejug.classifieds</groupId>
+							<artifactId>cejug-classifieds-login</artifactId>
+						</ejbModule>
+						<ejbModule>
+							<groupId>net.java.dev.cejug.classifieds</groupId>
+							<artifactId>cejug-classifieds-ws</artifactId>
+						</ejbModule>
+						<ejbClientModule>
+							<groupId>net.java.dev.cejug.classifieds</groupId>
+							<artifactId>cejug-classifieds-ws</artifactId>
+							<bundleDir>/lib</bundleDir>
+						</ejbClientModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>hudson</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-version}</version>
+						<executions>
+							<execution>
+								<id>Populate test data</id>
+								<phase>verify</phase>
+								<configuration>
+									<tasks>
+										<exec executable="sh">
+											<arg value="./setup.sh" />
+										</exec>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>hudsonWin</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-version}</version>
+						<executions>
+							<execution>
+								<id>Reset DB</id>
+								<phase>package</phase>
+								<configuration>
+									<tasks>
+										<exec executable="cmd">
+											<arg value="/c" />
+											<arg value="setup.bat" />
+										</exec>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

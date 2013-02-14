@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+	targetNamespace="http://cejug-classifieds.dev.java.net/metadata/attachments"
+	xmlns:att="http://cejug-classifieds.dev.java.net/metadata/attachments"
+	elementFormDefault="qualified" attributeFormDefault="qualified"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xmime="http://www.w3.org/2005/05/xmlmime">
+	<xsd:import namespace="http://www.w3.org/2005/05/xmlmime"
+		schemaLocation="http://www.w3.org/2005/05/xmlmime" />
+	<xsd:annotation>
+		<xsd:documentation>
+			Attachments, images, sounds and videos (multi-media). @see http://www.w3.org/TR/xml-media-types/#expectedContentTypes
+		</xsd:documentation>
+	</xsd:annotation>
+	<!--
+		This element designates the range of values that the element
+		definition will accept:
+		http://www.w3schools.com/media/media_mimeref.asp
+	-->
+	<xsd:complexType name="AtavarImage"
+		xmime:expectedContentTypes="image/jpeg;q=1.0, image/png">
+		<xsd:simpleContent>
+			<xsd:restriction base="xmime:base64Binary">
+				<xsd:attribute ref="xmime:contentType" use="required" />
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="AttachmentMedia"
+		xmime:expectedContentTypes="image/jpeg,image/png,application/x-shockwave-flash,audio/mpeg">
+		<xsd:simpleContent>
+			<xsd:restriction base="xmime:base64Binary">
+				<xsd:attribute ref="xmime:contentType" use="required" />
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:element name="AvatarImageOrUrl">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element type="att:AtavarImage" name="image" />
+				<xsd:element type="att:ResourceLink" name="url" />
+				<xsd:element type="xsd:string" name="gravatar.email" />
+			</xsd:choice>
+			<xsd:attribute name="name" type="xsd:string" use="required" />
+			<xsd:attribute name="description" type="xsd:string"
+				use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AttachmentOrUrl">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element type="att:AttachmentMedia" name="attachment" />
+				<xsd:element type="att:ResourceLink" name="url" />
+			</xsd:choice>
+			<xsd:attribute name="name" type="xsd:string" use="required" />
+			<xsd:attribute name="description" type="xsd:string"
+				use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+		Resource links are used in replacement of attachments, where in a
+		'restified' way the customer provides only the link to the images
+		instead of its binary contents.
+	-->
+	<xsd:simpleType name="ResourceLink">
+		<xsd:annotation>
+			<xsd:documentation>http://aspn.activestate.com/ASPN/Mail/Message/xml-dev/754445.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:anyURI">
+			<xsd:pattern
+				value="(([a-zA-Z][0-9a-zA-Z+\\-\\.]*:)?/{0,2}[0-9a-zA-Z;/?:@&amp;=+$\\.\\-_!~*'()%]+)?(#[0-9a-zA-Z;/?:@&amp;=+$\\.\\-_!~*'()%]+)?" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

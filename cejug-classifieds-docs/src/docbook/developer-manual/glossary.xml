@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glossary>
+	<title>Glossary</title>
+	<para>This is not a real glossary, it's just an example.</para>
+
+	<!-- ... -->
+
+	<glossdiv>
+		<title>J</title>
+
+		<glossentry id="javase">
+			<glossterm>JavaSE</glossterm>
+			<acronym>JavaSE</acronym>
+			<glossdef>
+				<para>Java Standard Edition.</para>
+				<glossseealso otherterm="javaee">JavaEE</glossseealso>
+			</glossdef>
+		</glossentry>
+
+        <glossentry id="javaee">
+            <glossterm>JavaEE</glossterm>
+            <acronym>JavaEE</acronym>
+            <glossdef>
+                <para>Java Enterprise Edition.</para>
+                <glossseealso otherterm="javase">JavaSE</glossseealso>
+            </glossdef>
+        </glossentry>
+
+        <glossentry id="javame">
+            <glossterm>JavaME</glossterm>
+            <acronym>JavaME</acronym>
+            <glossdef>
+                <para>Java Micro Edition.</para>
+                <glossseealso otherterm="javase">JavaSE</glossseealso>
+            </glossdef>
+        </glossentry>
+
+	</glossdiv>
+
+	<!-- ... -->
+
+	<glossdiv>
+		<title>S</title>
+
+		<glossentry>
+			<glossterm>SGML</glossterm>
+			<glosssee otherterm="sgml" />
+		</glossentry>
+
+		<glossentry id="sgml">
+			<glossterm>Standard Generalized Markup Language</glossterm>
+			<acronym>SGML</acronym>
+			<abbrev>ISO 8879:1986</abbrev>
+			<glossdef>
+				<para>Some reasonable definition here.</para>
+				<glossseealso otherterm="javase">JavaSE</glossseealso>
+			</glossdef>
+		</glossentry>
+
+	</glossdiv>
+</glossary>

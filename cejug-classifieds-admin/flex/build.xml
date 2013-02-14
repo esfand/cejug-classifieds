@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="cejug-classifieds-admin" basedir="." default="deploy.war">
+	<property environment="env" />
+	<property name="build.properties" location="build.properties" />
+	<property file="${build.properties}" />
+
+	<property name="proj.src.flex" location="${basedir}/src" />
+	<property name="proj.src.java" location="${basedir}/../java/src" />
+	<property name="proj.src.java.generated" location="${basedir}/../java/generated" />
+	<property name="proj.src.flex.root" value="${proj.src.flex}/net/java/dev/cejug/classifieds/admin/view" />
+
+	<property name="dev.libs" location="${basedir}/libs" />
+	<property name="build.dir" location="${basedir}/../build" />
+	<property name="war.dir" location="${build.dir}/war" />
+	<property name="build.classes" location="${war.dir}/WEB-INF/classes" />
+
+	<!--
+   ========================================================================
+   Configurações do Flex
+   ========================================================================
+   -->
+	<property name="flex.frameworks" value="${flex.home}/frameworks" />
+	<property name="flex.config" value="${flex.frameworks}/flex-config.xml" />
+	<property name="flex.lib" value="${flex.home}/lib" />
+	<property name="flex.compc" value="${flex.lib}/compc.jar" />
+	<property name="flex.mxmlc" value="${flex.lib}/mxmlc.jar" />
+	<property name="flex.mxmlc.options" value="" />
+	<property name="flex.compc.options" value="" />
+
+	<path id="jaxws.classpath">
+		<pathelement location="${java.home}/../lib/tools.jar" />
+		<fileset dir="${env.AS_HOME}/lib/">
+			<include name="javaee.jar" />
+			<include name="appserv-ws.jar" />
+		</fileset>
+		<fileset dir="${dev.libs}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="compile.web.classes" description="Compila as classes da aplicacao" depends="init,generate-stubs" unless="isGraniteDS">
+		<echo message="Compilando classes" level="info" />
+		<javac destdir="${build.classes}" fork="true" deprecation="${compile.deprecation}" debug="${compile.debug}" debugLevel="source,lines,vars">
+			<src path="${proj.src.java}" />
+			<classpath path="${build.classes}" />
+		</javac>
+	</target>
+
+	<target name="init">
+		<delete dir="${build.dir}" failonerror="false" />
+		<delete dir="${proj.src.java.generated}" failonerror="false" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${proj.src.java.generated}" />
+		<mkdir dir="${build.classes}" />
+		<copy todir="${war.dir}">
+			<fileset dir="${basedir}/web">
+				<exclude name="WEB-INF/**" />
+			</fileset>
+		</copy>
+		<mkdir dir="${war.dir}/WEB-INF" />
+		<copy todir="${war.dir}/WEB-INF">
+			<fileset dir="${basedir}/web/WEB-INF/${flex.server.access}">
+				<include name="*/**" />
+			</fileset>
+		</copy>
+		<condition property="isGraniteDS">
+			<equals arg1="graniteds" arg2="${flex.server.access}" trim="true" />
+		</condition>
+	</target>
+
+	<target name="generate-stubs" depends="init" unless="isGraniteDS">
+		<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport" classpathref="jaxws.classpath" />
+		<wsimport debug="true" verbose="${verbose}" keep="true" extension="false" destdir="${proj.src.java.generated}" package="${service.wsdl.generated.package}" wsdl="${service.admin.wsdl}" wsdllocation="${service.admin.wsdllocation}">
+			<produces dir="${proj.src.java.generated}" includes="${service.wsdl.generated.package}/**/*.java" />
+			<xjcarg value="-Xcollection-setter-injector" />
+		</wsimport>
+		<javac fork="true" destdir="${build.classes}" debug="${compile.debug}" debuglevel="lines,vars,source">
+			<src path="${proj.src.java.generated}" />
+		</javac>
+	</target>
+
+	<target name="build.war" depends="compile.web.classes,build.flex">
+		<war basedir="${war.dir}" destfile="${build.dir}/cejug-classifieds-admin.war">
+		</war>
+	</target>
+
+	<target name="deploy.war" depends="build.war">
+		<copy file="${build.dir}/cejug-classifieds-admin.war" todir="${deploy.dir}" overwrite="true" />
+	</target>
+
+	<!--
+   ========================================================================
+   Gera o swf application
+   ========================================================================
+   -->
+	<target name="setFlexLibPathBlazeDS" unless="isGraniteDS">
+		<path id="flex.lib.application">
+		</path>
+	</target>
+	<target name="setFlexLibPathGraniteDS" if="isGraniteDS">
+		<path id="flex.lib.application">
+			<pathelement location="${dev.libs}/swc/granite.swc" />
+		</path>
+	</target>
+
+	<target name="build.flex" depends="init,setFlexLibPathBlazeDS,setFlexLibPathGraniteDS">
+		<pathconvert property="mxmlc2.lib.files" refid="flex.lib.application" pathsep="," />
+		<condition property="mxmlc2.libpath" value="-include-libraries+=${mxmlc2.lib.files}" else="">
+			<not>
+				<equals arg1="" arg2="${mxmlc2.lib.files}" trim="true" />
+			</not>
+		</condition>
+		<java jar="${flex.mxmlc}" dir="." fork="true" failonerror="true">
+			<jvmarg value="-Xmx512m" />
+			<arg line="${mxmlc2.libpath}" />
+			<arg value="+flexlib=${flex.frameworks}" />
+			<arg value="-load-config=${flex.config}" />
+			<arg value="-source-path=${proj.src.flex}" />
+			<arg value="-file-specs=${proj.src.flex.root}/admin.mxml" />
+			<arg value="-output=${war.dir}/admin.swf" />
+			<arg value="-context-root=/cejug-classifieds-admin" />
+			<arg value="-services=${basedir}/web/WEB-INF/${flex.server.access}/flex/services-config.xml" />
+			<arg line="-debug=${flex.debug} -use-network=true -link-report=${build.dir}/admin.xml" />
+		</java>
+	</target>
+
+	<property name="asdocExec" location="${flex.home}/bin/asdoc" />
+	<property name="docsPath" location="${basedir}/docs/javadoc" />
+	<target name="asdoc">
+		<delete dir="${docsPath}" includeEmptyDirs="true" />
+		<mkdir dir="${docsPath}" />
+
+		<exec executable="${asdocExec}" failonerror="true">
+			<arg line="-source-path '${proj.src.flex}'" />
+			<arg line="-doc-classes net.java.dev.cejug.classifieds.admin.view.admin" />
+			<arg line="-output '${docsPath}' " />
+			<arg line="-footer '${doc.bottom}' " />
+			<arg line="-main-title '${doc.doctitle}'" />
+			<arg line="-window-title '${doc.doctitle}'" />
+		</exec>
+	</target>
+
+	<!-- continuous integration task -->
+	<target name="hudson">
+		<antcall target="deploy.war" />
+		<antcall target="asdoc" />
+		<!--antcall target="pmd" />
+		<antcall target="cpd" />
+		<antcall target="findbugs" /-->
+	</target>
+</project>
